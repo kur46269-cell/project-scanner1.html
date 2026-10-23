@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>APK & Web Analyzer AI</title>
+<style>
+:root{
+ --bg:#070b11;--panel:#0e1621;--panel2:#080e15;
+ --border:#203247;--blue:#43b6ff;--green:#44e0a0;
+ --yellow:#ffd166;--red:#ff657a;
+ --text:#dce9f5;--muted:#8399ae
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:radial-gradient(ellipse at top,#102033,var(--bg) 55%);
+ color:var(--text);font:14px/1.5 ui-monospace,Consolas,monospace
+}
+header{
+ position:sticky;top:0;z-index:5;padding:15px;
+ background:#080e16ef;border-bottom:1px solid var(--border)
+}
+.topbar,.row,.ai-top,.drawer-head{
+ display:flex;align-items:center;justify-content:space-between;gap:10px
+}
+h1{margin:0;color:var(--blue);font-size:clamp(18px,4vw,27px)}
+h2{font-size:14px;color:#c9e7ff;margin:0 0 12px}
+h3{font-size:12px;margin:0 0 6px}
+p{overflow-wrap:anywhere}
+.wrap,main,.foot{max-width:1100px;margin:auto}
+main{padding:14px;display:grid;gap:14px}
+.panel{
+ min-width:0;padding:14px;border:1px solid var(--border);
+ border-radius:10px;background:linear-gradient(145deg,#101a26,#0b121b);
+ box-shadow:0 8px 25px #0002
+}
+.muted,.status{font-size:11px;color:var(--muted)}
+.badge{
+ display:inline-block;padding:3px 7px;border:1px solid #2b536f;
+ border-radius:5px;background:#10283a;color:#aee0ff;font-size:10px
+}
+button,.button{
+ display:inline-block;padding:10px 12px;border:1px solid #287eb2;
+ border-radius:6px;background:#102b40;color:#d9f1ff;
+ font:inherit;font-size:12px;cursor:pointer
+}
+button:hover,.button:hover{background:#153b56}
+button:disabled{opacity:.45;cursor:not-allowed}
+.secondary{background:#101923;border-color:#34495c}
+.dangerbtn{background:#35151d;border-color:#8b3445}
+.editbtn{background:#1a2a12;border-color:#4c7a2e;color:#c8f0a0}
+.editbtn:hover{background:#22381a}
+input[type=text],input[type=url],input[type=password],textarea,select{
+ width:100%;padding:10px;background:#070d14;color:var(--text);
+ border:1px solid #2b4053;border-radius:6px;font:inherit;font-size:12px
+}
+textarea{min-height:75px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
+.fileinput{display:none}
+.row{justify-content:flex-start;flex-wrap:wrap}
+.grow{flex:1;min-width:150px}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.span8{grid-column:span 8}.span4{grid-column:span 4}
+.span12{grid-column:span 12}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.stat{padding:11px;border:1px solid #1b2c3d;border-radius:7px;background:#080e15}
+.stat span{display:block;color:var(--muted);font-size:10px}
+.stat strong{display:block;font-size:23px;margin-top:5px}
+.terminal{
+ height:220px;overflow:auto;padding:10px;background:#03070b;
+ border:1px solid #1b2c3d;border-radius:7px;font-size:11px;
+ line-height:1.7;overflow-wrap:anywhere
+}
+.log{white-space:pre-wrap}
+.info{color:var(--blue)}.ok{color:var(--green)}
+.warn{color:var(--yellow)}.err{color:var(--red)}
+.progress{height:5px;margin:10px 0;background:#1b2936;border-radius:5px;overflow:hidden}
+.bar{height:100%;width:0;background:var(--blue);transition:width .12s}
+.findings{display:grid;gap:8px}
+.finding{
+ padding:11px;border:1px solid #2b3a47;border-left:3px solid var(--yellow);
+ border-radius:6px;background:#090f16;min-width:0
+}
+.finding.high{border-left-color:var(--red)}
+.finding.medium{border-left-color:var(--yellow)}
+.finding.low{border-left-color:var(--green)}
+.finding p{margin:5px 0;color:#9db0c2;font-size:11px}
+.empty{padding:10px 0;color:var(--muted);font-size:12px}
+.foot{padding:0 14px 20px;color:#70869a;font-size:11px}
+.ai-overlay{
+ position:fixed;inset:0;z-index:30;background:#050a11;
+ display:none;flex-direction:column
+}
+.ai-overlay.open{display:flex}
+.ai-top{
+ padding:13px 16px;border-bottom:1px solid var(--border);
+ background:#0b131e
+}
+.ai-title{color:var(--blue);font-weight:bold}
+.chat-scroll{
+ flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;
+ gap:12px;width:100%;max-width:850px;margin:auto
+}
+.chat-bubble{
+ max-width:95%;padding:12px;border:1px solid var(--border);
+ border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere
+}
+.chat-bubble.user{align-self:flex-end;background:#102b40}
+.chat-bubble.assistant{align-self:flex-start;background:#0b141e}
+.chat-compose{
+ width:100%;max-width:850px;margin:auto;padding:12px 16px 18px;
+ border-top:1px solid var(--border)
+}
+.chat-hints{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px}
+.chat-hints button{font-size:10px;padding:7px}
+.drawer-backdrop{
+ position:fixed;inset:0;z-index:19;background:#0009;display:none
+}
+.drawer-backdrop.open{display:block}
+.drawer{
+ position:fixed;top:0;right:0;width:min(310px,88vw);height:100dvh;
+ padding:18px;background:#0a121c;border-left:1px solid var(--border);
+ z-index:20;transform:translateX(105%);transition:transform .2s
+}
+.drawer.open{transform:translateX(0)}
+.drawer-nav{display:grid;gap:8px;margin-top:20px}
+.drawer-nav button{text-align:left}
+.drawer-note{margin-top:18px;font-size:11px;color:var(--muted)}
+
+/* LOGIN */
+.login-overlay{
+ position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at top,#122238,#050a11 60%);
+ display:flex;align-items:center;justify-content:center;padding:16px
+}
+.login-overlay.hidden{display:none}
+.login-card{
+ width:100%;max-width:400px;padding:22px;border:1px solid var(--border);
+ border-radius:12px;background:linear-gradient(145deg,#101a26,#0b121b);
+ box-shadow:0 20px 60px #000a
+}
+.login-card h1{font-size:20px;margin:0 0 4px}
+.login-card .row{margin-top:10px}
+.login-err{color:var(--red);font-size:11px;margin-top:8px;min-height:16px}
+
+/* ROLE BADGE */
+.role-owner{background:#3a2a10;border-color:#ffb84d;color:#ffd591}
+.role-ceo{background:#2a1338;border-color:#b37bff;color:#e0c8ff}
+.role-pt{background:#0f2e26;border-color:#44e0a0;color:#a8f5d3}
+.role-member{background:#10283a;border-color:#43b6ff;color:#aee0ff}
+
+/* PASSWORD EDIT INLINE */
+.pw-edit{
+ margin-top:8px;padding:10px;border:1px dashed #2b4053;border-radius:6px;
+ background:#060d14;display:none
+}
+.pw-edit.open{display:block}
+.pw-edit .row{margin-top:6px}
+.pw-edit input{font-size:11px}
+.pw-msg{font-size:11px;margin-top:6px;min-height:14px}
+
+@media(max-width:760px){
+ main{padding:9px}.grid{gap:9px}
+ .span8,.span4,.span12{grid-column:span 12}
+ header{padding:11px}.panel{padding:11px}
+ .terminal{height:200px}
+ .chat-compose{padding:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN OVERLAY ============ -->
+<section id="loginOverlay" class="login-overlay" role="dialog" aria-modal="true">
+  <div class="login-card">
+    <h1>🔐 LOGIN REQUIRED</h1>
+    <div class="muted">Akses terbatas. Hanya user terdaftar yang dapat masuk.</div>
+
+    <div class="row" style="margin-top:14px">
+      <input id="loginUser" type="text" placeholder="Username" autocomplete="username">
+    </div>
+    <div class="row">
+      <input id="loginPass" type="password" placeholder="Password" autocomplete="current-password">
+    </div>
+    <div class="row">
+      <button id="loginBtn" style="width:100%">MASUK</button>
+    </div>
+    <div id="loginErr" class="login-err"></div>
+
+    <div class="muted" style="margin-top:14px;font-size:10px">
+      Default owner: <b>Fxen</b> / <b>Fxen123!</b>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APP ============ -->
+<header>
+ <div class="wrap topbar">
+  <div>
+   <h1>APK & WEB ANALYZER</h1>
+   <div class="muted">LOCAL STATIC SCANNER · URL SECURITY CHECK</div>
+  </div>
+  <div class="row">
+    <span id="sessionBadge" class="badge role-member">guest</span>
+    <button id="menuBtn" aria-label="Buka menu">☰</button>
+  </div>
+ </div>
+</header>
+
+<div id="drawerBackdrop" class="drawer-backdrop"></div>
+<aside id="drawer" class="drawer">
+ <div class="drawer-head">
+  <strong style="color:var(--blue)">NAVIGATION</strong>
+  <button id="closeMenuBtn" class="secondary">✕</button>
+ </div>
+ <nav class="drawer-nav">
+  <button data-nav="dashboard">Dashboard Scan</button>
+  <button data-nav="website">Website Analyzer</button>
+  <button data-nav="chat">Realtime Chat</button>
+  <button data-nav="ai">AI Assistant</button>
+  <button data-nav="admin" id="adminNavBtn" style="display:none">Owner Panel</button>
+  <button data-nav="logout" class="dangerbtn">Logout</button>
+ </nav>
+ <div class="drawer-note">
+  Analisis APK dan URL dilakukan secara lokal menggunakan aturan heuristik.
+  Chat real-time ditenagai Supabase.
+ </div>
+</aside>
+
+<!-- ============ OWNER PANEL ============ -->
+<section id="adminPanel" class="ai-overlay" role="dialog" aria-modal="true">
+ <div class="ai-top">
+  <div>
+   <div class="ai-title">OWNER PANEL — USER MANAGEMENT</div>
+   <div class="muted">Hanya owner yang dapat mengelola user & role.</div>
+  </div>
+  <button id="closeAdminBtn" class="secondary">TUTUP ✕</button>
+ </div>
+ <div class="chat-scroll">
+   <div class="panel">
+     <h2>BUAT USER BARU</h2>
+     <div class="row" style="margin-top:8px">
+       <input id="newUser" class="grow" type="text" placeholder="username (case-sensitive)">
+       <input id="newPass" class="grow" type="password" placeholder="password (min 6)">
+       <select id="newRole" class="grow">
+         <option value="member">member</option>
+         <option value="ceo">ceo</option>
+         <option value="pt">pt</option>
+       </select>
+       <button id="addUserBtn">TAMBAH USER</button>
+     </div>
+     <div id="adminMsg" class="muted" style="margin-top:8px"></div>
+   </div>
+
+   <div class="panel">
+     <h2>DAFTAR USER TERDAFTAR</h2>
+     <div id="userList" class="findings"></div>
+   </div>
+ </div>
+</section>
+
+<!-- ============ AI OVERLAY ============ -->
+<section id="aiOverlay" class="ai-overlay" role="dialog" aria-modal="true">
+ <div class="ai-top">
+  <div>
+   <div class="ai-title">AI ASSISTANT</div>
+   <div class="muted">Asisten analisis keamanan</div>
+  </div>
+  <button id="closeAiBtn" class="secondary">TUTUP ✕</button>
+ </div>
+ <div id="chatMessages" class="chat-scroll" aria-live="polite">
+  <div class="chat-bubble assistant">
+   Halo! Saya dapat membantu menjelaskan hasil pemindaian, pola kode
+   mencurigakan, izin aplikasi, dan pemeriksaan URL.
+   Mode bawaan menggunakan aturan lokal, bukan AI generatif.
+  </div>
+ </div>
+ <div class="chat-compose">
+  <div class="chat-hints">
+   <button class="secondary" data-prompt="Jelaskan hasil scan APK saat ini.">Hasil scan</button>
+   <button class="secondary" data-prompt="Apa arti tingkat risiko HIGH, MEDIUM, dan LOW?">Tingkat risiko</button>
+   <button class="secondary" data-prompt="Bagaimana cara memeriksa URL mencurigakan?">Analisis URL</button>
+  </div>
+  <textarea id="chatInput" placeholder="Tulis pertanyaan..."></textarea>
+  <div class="row" style="margin-top:8px">
+   <button id="sendChatBtn">KIRIM</button>
+   <button id="clearChatBtn" class="secondary">BERSIHKAN CHAT</button>
+  </div>
+  <div id="chatStatus" class="muted" style="margin-top:7px">
+   Mode lokal aktif.
+  </div>
+ </div>
+</section>
+
+<main id="dashboard">
+ <section class="grid">
+  <div class="panel span8">
+   <h2>01 / INPUT & SCAN</h2>
+   <div class="row">
+    <label class="button" for="apkInput">PILIH APK / ZIP</label>
+    <input class="fileinput" id="apkInput" type="file"
+     accept=".apk,.zip,.apkm,.xapk,application/zip,application/vnd.android.package-archive">
+    <button id="scanBtn" disabled>MULAI SCAN</button>
+    <button id="clearBtn" class="secondary">CLEAR LOG</button>
+   </div>
+   <div id="fileLabel" class="muted" style="margin-top:10px">
+    Belum ada file dipilih.
+   </div>
+   <div class="progress"><div class="bar" id="bar"></div></div>
+   <div id="progressLabel" class="status">Menunggu input.</div>
+   <div class="muted" style="margin-top:9px">
+    Pemindaian statis lokal. Kecepatan bergantung pada ukuran arsip,
+    memori perangkat, browser, dan jumlah file di dalamnya.
+   </div>
+  </div>
+
+  <div class="panel span4">
+   <h2>02 / STATISTICS</h2>
+   <div class="stats">
+    <div class="stat"><span>FILES</span><strong id="filesCount">0</strong></div>
+    <div class="stat"><span>FINDINGS</span><strong id="findingCount">0</strong></div>
+    <div class="stat"><span>HIGH</span><strong id="highCount" style="color:var(--red)">0</strong></div>
+    <div class="stat"><span>WARNING</span><strong id="warningCount" style="color:var(--yellow)">0</strong></div>
+   </div>
+  </div>
+
+  <div class="panel span12">
+   <h2>03 / LIVE TERMINAL</h2>
+   <div id="terminal" class="terminal" aria-live="polite"></div>
+  </div>
+
+  <div class="panel span12">
+   <h2>04 / DETECTED DANGERS & WARNINGS</h2>
+   <div class="muted" style="margin-bottom:10px">
+    Temuan berbasis pola. Periksa bukti dan konteks sebelum menentukan
+    apakah aktivitas tersebut berbahaya.
+   </div>
+   <div id="findings" class="findings">
+    <div class="empty">Belum ada hasil pemindaian.</div>
+   </div>
+  </div>
+
+  <div class="panel span12" id="websitePanel">
+   <h2>05 / WEBSITE SECURITY CHECK</h2>
+   <label for="urlInput" class="muted">
+    Masukkan alamat website untuk memeriksa indikator URL.
+   </label>
+   <div class="row" style="margin-top:8px">
+    <input id="urlInput" class="grow" type="url"
+     placeholder="https://example.com">
+    <button id="urlBtn">ANALYZE WEBSITE</button>
+   </div>
+   <div class="muted" style="margin-top:8px">
+    Pemeriksaan ini menganalisis URL yang dimasukkan tanpa mengambil HTML
+    halaman. Tidak melakukan verifikasi reputasi domain secara online.
+   </div>
+   <div id="urlResults" class="findings" style="margin-top:12px">
+    <div class="empty">Masukkan URL untuk memulai pemeriksaan.</div>
+   </div>
+  </div>
+
+  <div class="panel span12" id="chatPanel">
+   <h2>07 / REALTIME CHAT</h2>
+   <div class="muted" style="margin-bottom:8px">
+    Chat publik antar user yang login. Pesan disimpan sebagai history (50 terakhir).
+   </div>
+   <div id="rtMessages" class="terminal" style="height:260px;margin-bottom:10px"></div>
+   <div class="row">
+    <input id="rtInput" class="grow" type="text" placeholder="Tulis pesan..." maxlength="500">
+    <button id="rtSendBtn">KIRIM</button>
+   </div>
+   <div id="rtStatus" class="muted" style="margin-top:6px">Menunggu login...</div>
+  </div>
+
+  <div class="panel span12">
+   <h2>06 / REPORT</h2>
+   <div class="row">
+    <button id="reportBtn">EXPORT JSON REPORT</button>
+    <button id="resetBtn" class="secondary">RESET SCAN</button>
+   </div>
+   <div class="muted" style="margin-top:8px">
+    Laporan mencakup nama file, hasil pemindaian, dan temuan.
+    File APK tidak disertakan dalam laporan.
+   </div>
+  </div>
+ </section>
+</main>
+
+<div class="foot">
+ Static analysis only. Tidak menjalankan APK, tidak mendekompilasi seluruh
+ DEX menjadi source code, dan tidak menjamin keamanan file.
+ Jangan memasang APK yang tidak dipercaya.
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+
+/* ==========================================================
+   KONFIGURASI SUPABASE (BARU)
+   ========================================================== */
+const SUPABASE_URL  = "https://igqetxlihvtlqcarmmbn.supabase.co";
+const SUPABASE_KEY  = "sb_publishable_ASbXRCLD7lTy9G_SDfRh7A_eZHOEzfz";
+const SESSION_KEY   = "awz_session_v2";
+const ROLES         = ["owner", "ceo", "pt", "member"];
+
+let supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let currentSession = null;
+
+/* ==========================================================
+   AUTH / USER DATABASE (SUPABASE)
+   ========================================================== */
+async function sha256(text) {
+  const buf = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest("SHA-256", buf);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function verifyLogin(username, password) {
+  const { data, error } = await supabaseClient
+    .from("app_users")
+    .select("*")
+    .eq("username", username)
+    .single();
+
+  if (error || !data) return { ok:false, reason:"Username tidak terdaftar di database." };
+  
+  const hash = await sha256(password);
+  if (hash !== data.pass_hash) return { ok:false, reason:"Password salah." };
+  
+  return { ok:true, user: data };
+}
+
+function saveSession(user) {
+  const s = {
+    username: user.username,
+    role: user.role,
+    loginAt: new Date().toISOString()
+  };
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(s));
+  currentSession = s;
+  return s;
+}
+
+function loadSession() {
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch(e){ return null; }
+}
+
+function clearSession() {
+  sessionStorage.removeItem(SESSION_KEY);
+  currentSession = null;
+}
+
+function roleBadgeClass(role) {
+  return "badge role-" + role;
+}
+
+function applyRoleUI(session) {
+  const badge = $("sessionBadge");
+  if (!session) {
+    badge.textContent = "guest";
+    badge.className = "badge role-member";
+    $("adminNavBtn").style.display = "none";
+    return;
+  }
+  badge.textContent = session.username + " · " + session.role;
+  badge.className = roleBadgeClass(session.role);
+  $("adminNavBtn").style.display = session.role === "owner" ? "inline-block" : "none";
+}
+
+function showLogin() {
+  $("loginOverlay").classList.remove("hidden");
+  $("loginUser").value = "";
+  $("loginPass").value = "";
+  $("loginErr").textContent = "";
+  setTimeout(() => $("loginUser").focus(), 50);
+}
+
+function hideLogin() {
+  $("loginOverlay").classList.add("hidden");
+}
+
+async function doLogin() {
+  const username = $("loginUser").value.trim();
+  const password = $("loginPass").value;
+  $("loginErr").textContent = "";
+
+  if (!username || !password) {
+    $("loginErr").textContent = "Username dan password wajib diisi.";
+    return;
+  }
+
+  $("loginBtn").disabled = true;
+  try {
+    const res = await verifyLogin(username, password);
+    if (!res.ok) {
+      $("loginErr").textContent = "Akses ditolak. " + res.reason;
+      log("LOGIN DITOLAK: " + username + " — " + res.reason, "err");
+      return;
+    }
+    saveSession(res.user);
+    applyRoleUI(currentSession);
+    hideLogin();
+    log("LOGIN BERHASIL: " + username + " (" + res.user.role + ")", "ok");
+    initRealtimeChat();
+  } catch(err) {
+    $("loginErr").textContent = "Gagal memproses login: " + err.message;
+  } finally {
+    $("loginBtn").disabled = false;
+  }
+}
+
+async function doLogout() {
+  const name = currentSession ? currentSession.username : "guest";
+  if (supabaseClient) {
+    try { supabaseClient.removeAllChannels(); } catch(e){}
+    try { await supabaseClient.auth.signOut(); } catch(e){}
+    
+    // Re-init client
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
+    chatChannel = null;
+    chatReady = false;
+    const rt = $("rtMessages");
+    if (rt) rt.replaceChildren();
+  }
+  clearSession();
+  applyRoleUI(null);
+  closeDrawer();
+  closeAdmin();
+  closeAI();
+  resetScanState();
+  log("LOGOUT: " + name, "warn");
+  showLogin();
+}
+
+/* -------- OWNER PANEL: USER MANAGEMENT -------- */
+function openAdmin() {
+  if (!currentSession || currentSession.role !== "owner") {
+    log("Akses ditolak: hanya owner yang boleh membuka Owner Panel.", "err");
+    return;
+  }
+  closeDrawer();
+  $("adminPanel").classList.add("open");
+  refreshUserList();
+}
+function closeAdmin() { $("adminPanel").classList.remove("open"); }
+
+async function refreshUserList() {
+  const box = $("userList");
+  box.replaceChildren();
+  box.innerHTML = '<div class="empty">Memuat data user...</div>';
+
+  const { data: users, error } = await supabaseClient
+    .from("app_users")
+    .select("*")
+    .order("created_at", { ascending: true });
+
+  box.replaceChildren();
+
+  if (error) {
+    box.innerHTML = '<div class="empty err">Gagal memuat user: ' + error.message + '</div>';
+    return;
+  }
+
+  if (!users.length) {
+    box.innerHTML = '<div class="empty">Belum ada user.</div>';
+    return;
+  }
+
+  for (const u of users) {
+    const card = document.createElement("div");
+    card.className = "finding low";
+
+    const h = document.createElement("h3");
+    h.textContent = u.username + "  ";
+    const b = document.createElement("span");
+    b.className = roleBadgeClass(u.role);
+    b.textContent = u.role;
+    h.appendChild(b);
+
+    const meta = document.createElement("p");
+    meta.textContent = "Dibuat: " + new Date(u.created_at).toLocaleString("id-ID");
+
+    card.append(h, meta);
+
+    const btnRow = document.createElement("div");
+    btnRow.className = "row";
+    btnRow.style.marginTop = "6px";
+
+    const editBtn = document.createElement("button");
+    editBtn.className = "editbtn";
+    editBtn.textContent = "GANTI PASSWORD";
+    btnRow.appendChild(editBtn);
+
+    if (!(u.username === "Fxen" && u.role === "owner") && currentSession.role === "owner") {
+      const del = document.createElement("button");
+      del.className = "dangerbtn";
+      del.textContent = "HAPUS USER";
+      del.addEventListener("click", async () => {
+        if (u.role === "owner" && users.filter(x => x.role === "owner").length <= 1) {
+          $("adminMsg").textContent = "Tidak bisa menghapus owner terakhir.";
+          return;
+        }
+        const { error: delErr } = await supabaseClient.from("app_users").delete().eq("id", u.id);
+        if (delErr) {
+          $("adminMsg").textContent = "Gagal hapus: " + delErr.message;
+        } else {
+          $("adminMsg").textContent = "User " + u.username + " dihapus.";
+          log("OWNER: hapus user " + u.username, "warn");
+          refreshUserList();
+        }
+      });
+      btnRow.appendChild(del);
+    }
+
+    card.appendChild(btnRow);
+
+    const pwEdit = document.createElement("div");
+    pwEdit.className = "pw-edit";
+    pwEdit.innerHTML =
+      '<div class="muted" style="font-size:10px">Password baru untuk <b>' +
+      u.username + '</b> (min 6 karakter)</div>' +
+      '<div class="row">' +
+      '  <input class="grow" type="password" placeholder="Password baru">' +
+      '  <input class="grow" type="password" placeholder="Ulangi password">' +
+      '  <button class="editbtn savepw">SIMPAN</button>' +
+      '  <button class="secondary cancelpw">BATAL</button>' +
+      '</div>' +
+      '<div class="pw-msg"></div>';
+
+    const [newPw, confirmPw] = pwEdit.querySelectorAll('input[type="password"]');
+    const saveBtn = pwEdit.querySelector(".savepw");
+    const cancelBtn = pwEdit.querySelector(".cancelpw");
+    const pwMsg = pwEdit.querySelector(".pw-msg");
+
+    editBtn.addEventListener("click", () => {
+      pwEdit.classList.toggle("open");
+      if (pwEdit.classList.contains("open")) {
+        newPw.value = ""; confirmPw.value = ""; pwMsg.textContent = "";
+        setTimeout(() => newPw.focus(), 50);
+      }
+    });
+
+    cancelBtn.addEventListener("click", () => {
+      pwEdit.classList.remove("open");
+    });
+
+    saveBtn.addEventListener("click", async () => {
+      const p1 = newPw.value;
+      const p2 = confirmPw.value;
+      pwMsg.style.color = "var(--red)";
+
+      if (p1.length < 6) {
+        pwMsg.textContent = "Password minimal 6 karakter."; return;
+      }
+      if (p1 !== p2) {
+        pwMsg.textContent = "Konfirmasi password tidak sama."; return;
+      }
+
+      saveBtn.disabled = true;
+      const newHash = await sha256(p1);
+      
+      const { error: updErr } = await supabaseClient
+        .from("app_users")
+        .update({ pass_hash: newHash })
+        .eq("id", u.id);
+        
+      saveBtn.disabled = false;
+
+      if (updErr) {
+        pwMsg.textContent = "Gagal update: " + updErr.message; return;
+      }
+
+      pwMsg.style.color = "var(--green)";
+      pwMsg.textContent = "Password diperbarui.";
+      log("OWNER: password user " + u.username + " diubah.", "ok");
+
+      setTimeout(() => { pwEdit.classList.remove("open"); }, 900);
+    });
+
+    card.appendChild(pwEdit);
+    box.appendChild(card);
+  }
+}
+
+async function addUser() {
+  if (!currentSession || currentSession.role !== "owner") {
+    $("adminMsg").textContent = "Hanya owner yang dapat menambah user.";
+    return;
+  }
+  const username = $("newUser").value.trim();
+  const password = $("newPass").value;
+  const role = $("newRole").value;
+  $("adminMsg").textContent = "";
+
+  if (username.length < 3) {
+    $("adminMsg").textContent = "Username minimal 3 karakter."; return;
+  }
+  if (!/^[A-Za-z0-9_.-]+$/.test(username)) {
+    $("adminMsg").textContent = "Username hanya boleh huruf, angka, _, ., -"; return;
+  }
+  if (password.length < 6) {
+    $("adminMsg").textContent = "Password minimal 6 karakter."; return;
+  }
+  if (!ROLES.includes(role)) {
+    $("adminMsg").textContent = "Role tidak valid."; return;
+  }
+
+  $("addUserBtn").disabled = true;
+  const hash = await sha256(password);
+  
+  const { error } = await supabaseClient.from("app_users").insert({
+    username: username,
+    role: role,
+    pass_hash: hash
+  });
+  
+  $("addUserBtn").disabled = false;
+
+  if (error) {
+    if (error.code === "23505") { // Unique violation
+      $("adminMsg").textContent = "Username sudah terdaftar.";
+    } else {
+      $("adminMsg").textContent = "Gagal menambah user: " + error.message;
+    }
+    return;
+  }
+
+  $("newUser").value = "";
+  $("newPass").value = "";
+  $("adminMsg").textContent = "User " + username + " (" + role + ") ditambahkan.";
+  log("OWNER: tambah user " + username + " role=" + role, "ok");
+  refreshUserList();
+}
+
+/* ==========================================================
+   SCANNER
+   ========================================================== */
+let selectedFile = null;
+let findings = [];
+let entries = [];
+let scanning = false;
+let scanGeneration = 0;
+
+function log(message, type = "info") {
+  const el = document.createElement("div");
+  el.className = "log " + type;
+  el.textContent = "[" + new Date().toLocaleTimeString("id-ID") + "] " + message;
+  const t = $("terminal");
+  if (t) { t.appendChild(el); t.scrollTop = t.scrollHeight; }
+}
+
+function formatBytes(n) {
+  if (n < 1024) return n + " B";
+  if (n < 1048576) return (n / 1024).toFixed(1) + " KB";
+  return (n / 1048576).toFixed(2) + " MB";
+}
+
+function setProgress(done, total) {
+  const pct = total ? Math.floor(done / total * 100) : 100;
+  $("bar").style.width = pct + "%";
+  $("progressLabel").textContent = pct + "% — " + done + "/" + total + " file diperiksa";
+}
+
+function updateStats() {
+  $("filesCount").textContent = entries.length;
+  $("findingCount").textContent = findings.length;
+  $("highCount").textContent = findings.filter(x => x.sev === "HIGH").length;
+  $("warningCount").textContent = findings.filter(x => x.sev === "MEDIUM").length;
+}
+
+const RULES = [
+  { id:"DYNAMIC_LOAD", sev:"HIGH",
+    re:/\b(?:DexClassLoader|InMemoryDexClassLoader)\b/,
+    title:"Dynamic code loading",
+    why:"Pemuatan kode dinamis terdeteksi. Periksa sumber kode, validasi integritas, dan apakah kode berasal dari sumber tepercaya." },
+  { id:"PROCESS", sev:"HIGH",
+    re:/\bRuntime\s*\.\s*getRuntime\s*\(|\bProcessBuilder\b/,
+    title:"Process execution API",
+    why:"Referensi pembuatan proses ditemukan. Periksa perintah, argumen, dan konteks pemanggilan." },
+  { id:"NATIVE_EXEC", sev:"HIGH",
+    re:/\b(?:execve|Runtime\.exec)\s*\(/,
+    title:"Process execution reference",
+    why:"Pola pemanggilan eksekusi proses terdeteksi. Perlu pemeriksaan konteks untuk memastikan apakah penggunaannya sah." },
+  { id:"WEBVIEW", sev:"MEDIUM",
+    re:/\baddJavascriptInterface\b|\bsetJavaScriptEnabled\s*\(\s*true/,
+    title:"WebView JavaScript",
+    why:"JavaScript atau bridge WebView terdeteksi. Periksa konten yang dimuat dan pembatasan akses bridge." },
+  { id:"ACCESSIBILITY", sev:"MEDIUM",
+    re:/BIND_ACCESSIBILITY_SERVICE|AccessibilityService/,
+    title:"Accessibility service",
+    why:"Referensi layanan aksesibilitas ditemukan. Pastikan izin sesuai fungsi aplikasi." },
+  { id:"OVERLAY", sev:"MEDIUM",
+    re:/SYSTEM_ALERT_WINDOW|TYPE_APPLICATION_OVERLAY/,
+    title:"Overlay permission",
+    why:"Referensi overlay terdeteksi. Periksa apakah aplikasi mempunyai alasan yang sah untuk menampilkan overlay." },
+  { id:"SMS", sev:"MEDIUM",
+    re:/READ_SMS|RECEIVE_SMS|SEND_SMS/,
+    title:"SMS permission/API",
+    why:"Referensi akses SMS ditemukan. Tinjau kebutuhan fitur, izin, dan penggunaan data." },
+  { id:"CONTACTS", sev:"MEDIUM",
+    re:/READ_CONTACTS|WRITE_CONTACTS/,
+    title:"Contacts access",
+    why:"Referensi akses kontak ditemukan. Periksa apakah akses diperlukan dan bagaimana data diproses." },
+  { id:"REFLECTION", sev:"MEDIUM",
+    re:/getDeclaredMethod|getDeclaredField|setAccessible/,
+    title:"Reflection API",
+    why:"Reflection dapat digunakan secara sah. Periksa apakah ada pemanggilan tersembunyi atau akses yang tidak diharapkan." },
+  { id:"HTTP", sev:"MEDIUM",
+    re:/http:\/\/[^\s"'<>]{5,}/,
+    title:"Unencrypted HTTP URL",
+    why:"URL HTTP ditemukan. Data yang dikirim melalui HTTP tidak memiliki perlindungan enkripsi transport seperti HTTPS." },
+  { id:"URL", sev:"LOW",
+    re:/https?:\/\/[^\s"'<>]{5,}/,
+    title:"Embedded URL",
+    why:"URL ditemukan di dalam file. Periksa domain dan tujuan koneksi secara terpisah." },
+  { id:"NATIVE", sev:"LOW",
+    re:/System\.loadLibrary|System\.load\s*\(/,
+    title:"Native library loading",
+    why:"Pemuatan library native umum pada Android. Periksa sumber library dan konteks pemakaiannya." }
+];
+
+function extractStrings(bytes) {
+  const raw = new TextDecoder("latin1").decode(bytes);
+  return (raw.match(/[\x20-\x7E]{5,}/g) || []).join("\n");
+}
+
+function addFinding(item) {
+  findings.push(item);
+  const box = document.createElement("div");
+  box.className = "finding " + item.sev.toLowerCase();
+  const title = document.createElement("h3");
+  title.textContent = "[" + item.sev + "] " + item.title;
+  const file = document.createElement("p");
+  file.textContent = "File: " + item.file;
+  const evidence = document.createElement("p");
+  evidence.textContent = "Bukti: " + item.evidence.slice(0, 220);
+  const why = document.createElement("p");
+  why.textContent = "Penjelasan: " + item.why;
+  box.append(title, file, evidence, why);
+  $("findings").appendChild(box);
+}
+
+function resetFindings() {
+  findings = [];
+  $("findings").replaceChildren();
+  const empty = document.createElement("div");
+  empty.className = "empty";
+  empty.textContent = "Belum ada temuan.";
+  $("findings").appendChild(empty);
+}
+
+function findMatches(text, filename) {
+  const found = [];
+  for (const rule of RULES) {
+    const match = rule.re.exec(text);
+    if (!match) continue;
+    found.push({
+      id: rule.id, sev: rule.sev, title: rule.title,
+      file: filename, evidence: match[0], why: rule.why
+    });
+  }
+  return found;
+}
+
+function resetScanState() {
+  selectedFile = null;
+  entries = [];
+  findings = [];
+  $("apkInput").value = "";
+  $("apkInput").disabled = false;
+  $("scanBtn").disabled = true;
+  $("fileLabel").textContent = "Belum ada file dipilih.";
+  $("terminal").replaceChildren();
+  $("bar").style.width = "0%";
+  $("progressLabel").textContent = "Menunggu input.";
+  $("urlResults").replaceChildren();
+  $("urlInput").value = "";
+  const empty = document.createElement("div");
+  empty.className = "empty";
+  empty.textContent = "Masukkan URL untuk memulai pemeriksaan.";
+  $("urlResults").appendChild(empty);
+  resetFindings();
+  updateStats();
+}
+
+$("apkInput").addEventListener("change", e => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  if (scanning) {
+    log("Tunggu sampai scan aktif selesai sebelum memilih file lain.", "warn");
+    e.target.value = "";
+    return;
+  }
+  selectedFile = file;
+  $("fileLabel").textContent = file.name + " · " + formatBytes(file.size);
+  $("scanBtn").disabled = false;
+  log("Input dipilih: " + file.name);
+  log("Ukuran: " + formatBytes(file.size));
+  log("Siap dipindai.");
+});
+
+$("scanBtn").addEventListener("click", async () => {
+  if (!selectedFile || scanning) return;
+  if (!window.JSZip) {
+    log("JSZip gagal dimuat. Periksa koneksi internet atau library lokal.", "err");
+    return;
+  }
+
+  scanning = true;
+  const generation = ++scanGeneration;
+  $("scanBtn").disabled = true;
+  $("apkInput").disabled = true;
+  $("bar").style.width = "0%";
+  resetFindings();
+  entries = [];
+  updateStats();
+
+  const startTime = performance.now();
+
+  try {
+    log("Membaca struktur arsip...", "info");
+    const zip = await JSZip.loadAsync(selectedFile, { checkCRC32:false });
+    if (generation !== scanGeneration) return;
+
+    entries = Object.values(zip.files).filter(e => !e.dir);
+    updateStats();
+
+    const candidates = entries.filter(e =>
+      /\.(xml|json|txt|properties|html|js|smali|dex|so|arsc)$/i.test(e.name)
+    );
+
+    log("Total entri: " + entries.length + ". Kandidat scan: " + candidates.length + ".");
+
+    if (!candidates.length) {
+      setProgress(0, 0);
+      log("Tidak ditemukan file dengan tipe yang didukung aturan scanner.", "warn");
+    } else {
+      let nextIndex = 0;
+      let done = 0;
+      let lastPaint = performance.now();
+
+      const workerCount = Math.min(
+        4, candidates.length,
+        Math.max(1, navigator.hardwareConcurrency || 2)
+      );
+
+      async function worker() {
+        while (true) {
+          if (generation !== scanGeneration) return;
+          const index = nextIndex++;
+          if (index >= candidates.length) return;
+          const entry = candidates[index];
+          try {
+            const bytes = await entry.async("uint8array");
+            const isBinary = /\.(dex|so|arsc)$/i.test(entry.name);
+            const text = isBinary
+              ? extractStrings(bytes)
+              : new TextDecoder("utf-8").decode(bytes);
+            const results = findMatches(text, entry.name);
+            for (const item of results) addFinding(item);
+          } catch (error) {
+            log("Gagal membaca " + entry.name, "warn");
+          }
+          done++;
+          const now = performance.now();
+          if (done === candidates.length || now - lastPaint >= 250) {
+            setProgress(done, candidates.length);
+            updateStats();
+            log("Progress: " + done + "/" + candidates.length + ".");
+            lastPaint = now;
+            await new Promise(r => setTimeout(r, 0));
+          }
+        }
+      }
+
+      await Promise.all(Array.from({length: workerCount}, () => worker()));
+      if (generation !== scanGeneration) return;
+      setProgress(candidates.length, candidates.length);
+    }
+
+    updateStats();
+    const seconds = ((performance.now() - startTime) / 1000).toFixed(2);
+    log("Scan selesai dalam " + seconds + " detik.", "ok");
+    log("File arsip: " + entries.length + "; temuan: " + findings.length + ".", "ok");
+
+    if (!findings.length) {
+      log("Tidak ada pola yang cocok. Ini bukan bukti file aman.", "warn");
+      $("findings").replaceChildren();
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "Tidak ada indikator yang cocok dengan aturan aktif. Hasil ini tidak menjamin APK aman.";
+      $("findings").appendChild(empty);
+    }
+  } catch (error) {
+    log("Scan gagal: " + error.message, "err");
+  } finally {
+    if (generation === scanGeneration) {
+      scanning = false;
+      $("scanBtn").disabled = !selectedFile;
+      $("apkInput").disabled = false;
+    }
+  }
+});
+
+$("clearBtn").addEventListener("click", () => {
+  $("terminal").replaceChildren();
+  log("Terminal dibersihkan.");
+});
+
+$("resetBtn").addEventListener("click", () => {
+  if (scanning) {
+    log("Scan masih berlangsung. Tunggu hingga selesai.", "warn");
+    return;
+  }
+  resetScanState();
+  log("Analyzer direset.");
+});
+
+/* WEBSITE ANALYZER */
+function websiteFinding(level, title, detail) {
+  const box = document.createElement("div");
+  box.className = "finding " + level.toLowerCase();
+  const h = document.createElement("h3");
+  h.textContent = "[" + level + "] " + title;
+  const p = document.createElement("p");
+  p.textContent = detail;
+  box.append(h, p);
+  $("urlResults").appendChild(box);
+}
+
+$("urlBtn").addEventListener("click", () => {
+  const raw = $("urlInput").value.trim();
+  $("urlResults").replaceChildren();
+  if (!raw) {
+    websiteFinding("MEDIUM", "URL kosong", "Masukkan URL website terlebih dahulu.");
+    return;
+  }
+  let url;
+  try {
+    url = new URL(raw);
+    if (!["http:", "https:"].includes(url.protocol)) throw new Error("Skema URL tidak didukung.");
+    if (!url.hostname || !url.hostname.includes(".")) throw new Error("Nama host tidak tampak seperti domain publik.");
+  } catch (error) {
+    websiteFinding("HIGH", "Format URL tidak valid",
+      "Gunakan alamat seperti https://example.com. Detail: " + error.message);
+    log("URL tidak valid.", "err");
+    return;
+  }
+
+  function result(level, title, detail) { websiteFinding(level, title, detail); }
+
+  result("LOW", "Domain", "Host: " + url.hostname);
+  if (url.protocol === "https:") {
+    result("LOW", "HTTPS aktif", "URL menggunakan skema HTTPS. Ini tidak membuktikan situs tepercaya.");
+  } else {
+    result("HIGH", "HTTP tanpa enkripsi transport", "URL menggunakan HTTP. Hindari memasukkan kata sandi atau data sensitif.");
+  }
+  if (url.username || url.password) {
+    result("HIGH", "User-info di URL", "URL menyertakan bagian username/password sebelum host. Pastikan bukan pola penipuan.");
+  }
+  if (url.port) {
+    result("MEDIUM", "Port eksplisit", "Port: " + url.port + ". Port khusus tidak otomatis berbahaya.");
+  } else {
+    result("LOW", "Port", "Menggunakan port default untuk skema URL.");
+  }
+  const host = url.hostname.toLowerCase();
+  const labels = host.split(".");
+  if (host.startsWith("xn--") || labels.some(x => x.startsWith("xn--"))) {
+    result("MEDIUM", "Punycode terdeteksi", "Domain memakai label punycode. Periksa nama domain hasil konversi.");
+  }
+  if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)) {
+    result("MEDIUM", "Host berupa alamat IPv4", "URL menggunakan alamat IP, bukan nama domain biasa.");
+  }
+  if (host.length > 100) {
+    result("MEDIUM", "Nama host panjang", "Host sangat panjang. Periksa ejaan dan kesesuaian domain.");
+  }
+  if (labels.length >= 5) {
+    result("LOW", "Banyak subdomain", "Domain memiliki beberapa label subdomain.");
+  }
+  const suspiciousWords = ["login","verify","secure","account","password","wallet","claim","bonus","gift","free"];
+  const urlText = (host + url.pathname + url.search).toLowerCase();
+  const hits = suspiciousWords.filter(w => urlText.includes(w));
+  if (hits.length) {
+    result("MEDIUM", "Kata kunci yang perlu diperiksa",
+      "Ditemukan: " + hits.join(", ") + ". Kata-kata ini juga dapat muncul pada situs sah.");
+  }
+  if (/%[0-9a-f]{2}/i.test(url.href)) {
+    result("LOW", "URL encoded", "URL berisi karakter yang di-encode.");
+  }
+  if (url.search) {
+    const params = [...url.searchParams.keys()];
+    result("LOW", "Query parameters",
+      params.length ? "Nama parameter: " + params.slice(0,20).join(", ") : "URL memiliki query string.");
+    const redirectParams = params.filter(name =>
+      /^(redirect|redirect_uri|return|returnurl|next|continue|url|target|dest)$/i.test(name)
+    );
+    if (redirectParams.length) {
+      result("MEDIUM", "Parameter pengalihan",
+        "Parameter yang berpotensi mengarahkan pengguna ditemukan: " + redirectParams.join(", ") + ".");
+    }
+  } else {
+    result("LOW", "Query parameters", "Tidak ada query string.");
+  }
+  if (url.hash) {
+    result("LOW", "Fragment", "URL memiliki fragment. Fragment saja bukan indikator bahaya.");
+  }
+  result("LOW", "Batas pemeriksaan",
+    "Analisis ini hanya menilai URL. Scanner tidak memeriksa isi situs, sertifikat TLS secara langsung, reputasi domain, malware, atau riwayat phishing.");
+  log("Pemeriksaan URL selesai: " + url.hostname, "ok");
+});
+
+/* LOCAL AI ASSISTANT */
+function addChatBubble(text, role = "assistant") {
+  const bubble = document.createElement("div");
+  bubble.className = "chat-bubble " + role;
+  bubble.textContent = text;
+  $("chatMessages").appendChild(bubble);
+  $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
+}
+
+function buildLocalAnswer(question) {
+  const q = question.toLowerCase();
+  const high = findings.filter(x => x.sev === "HIGH").length;
+  const medium = findings.filter(x => x.sev === "MEDIUM").length;
+  const low = findings.filter(x => x.sev === "LOW").length;
+
+  if (/temuan|hasil scan|hasil pemindaian|risiko|bahaya|malware/.test(q)) {
+    return [
+      "RINGKASAN PEMINDAIAN",
+      "File arsip: " + (selectedFile ? selectedFile.name : "Belum dipilih"),
+      "Jumlah entri arsip: " + entries.length,
+      "Total temuan: " + findings.length,
+      "HIGH: " + high, "MEDIUM: " + medium, "LOW: " + low, "",
+      "HIGH dan MEDIUM adalah tingkat prioritas aturan heuristik, bukan vonis malware. Periksa bukti, sumber file, izin, dan konteks pemakaian."
+    ].join("\n");
+  }
+  if (/url|website|domain|situs|phishing/.test(q)) {
+    return [
+      "PEMERIKSAAN WEBSITE",
+      "Masukkan URL pada Website Security Check.", "",
+      "Periksa ejaan domain, HTTPS, nama host, redirect, formulir login, dan tujuan link.",
+      "Mode ini tidak mengambil HTML dan tidak memeriksa reputasi domain secara online.",
+      "HTTPS saja tidak menjamin sebuah situs aman."
+    ].join("\n");
+  }
+  if (/cepat|scanner|scan/.test(q)) {
+    return [
+      "OPTIMASI SCANNER",
+      "Scanner menggunakan worker paralel dengan jumlah terbatas.",
+      "Regex dijalankan satu kali per aturan dan file.",
+      "Pembaruan progress dibatasi untuk mengurangi beban DOM.", "",
+      "Kecepatan tetap bergantung pada ukuran APK, kompresi ZIP, RAM, dan browser."
+    ].join("\n");
+  }
+  return [
+    "MODE AI LOKAL",
+    "Pertanyaan: " + question, "",
+    "Total temuan: " + findings.length,
+    "HIGH: " + high + " | MEDIUM: " + medium + " | LOW: " + low, "",
+    "Asisten ini menggunakan aturan lokal dan tidak terhubung ke model AI generatif.",
+    "Untuk analisis bahasa alami yang lebih mendalam, hubungkan backend AI yang menyimpan API key di server, bukan di HTML publik."
+  ].join("\n");
+}
+
+async function sendChat() {
+  const question = $("chatInput").value.trim();
+  if (!question) return;
+  addChatBubble(question, "user");
+  $("chatInput").value = "";
+  $("sendChatBtn").disabled = true;
+  $("chatStatus").textContent = "Menyusun jawaban lokal...";
+  try {
+    const answer = buildLocalAnswer(question);
+    await new Promise(r => setTimeout(r, 100));
+    addChatBubble(answer);
+    $("chatStatus").textContent = "Jawaban lokal selesai.";
+  } finally {
+    $("sendChatBtn").disabled = false;
+    $("chatInput").focus();
+  }
+}
+
+$("sendChatBtn").addEventListener("click", sendChat);
+$("chatInput").addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendChat(); }
+});
+$("clearChatBtn").addEventListener("click", () => {
+  $("chatMessages").replaceChildren();
+  addChatBubble("Chat dibersihkan. Silakan ajukan pertanyaan baru.");
+});
+document.querySelectorAll("[data-prompt]").forEach(button => {
+  button.addEventListener("click", () => {
+    $("chatInput").value = button.dataset.prompt;
+    $("chatInput").focus();
+  });
+});
+
+/* ==========================================================
+   REALTIME CHAT + HISTORY (Supabase)
+   ========================================================== */
+const CHAT_TOPIC    = "chat:public";
+const HISTORY_LIMIT = 50;
+let chatChannel     = null;
+let chatReady       = false;
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function appendChatMessage(msg) {
+  const box = $("rtMessages");
+  if (!box) return;
+  const line = document.createElement("div");
+  line.className = "log";
+  const t = new Date(msg.created_at || msg.timestamp || Date.now())
+    .toLocaleTimeString("id-ID");
+  const roleClass = "role-" + (msg.user_role || msg.role || "member");
+  line.innerHTML =
+    '<span class="muted">[' + t + ']</span> ' +
+    '<span class="' + roleClass + ' badge">' + escapeHtml(msg.user_role || msg.role || "member") + '</span> ' +
+    '<b style="color:var(--blue)">' + escapeHtml(msg.user_name || msg.user || "anon") + '</b>: ' +
+    escapeHtml(msg.content || msg.text || "");
+  box.appendChild(line);
+  box.scrollTop = box.scrollHeight;
+}
+
+function setRtStatus(text, color) {
+  const el = $("rtStatus");
+  if (!el) return;
+  el.textContent = text;
+  el.style.color = color || "var(--muted)";
+}
+
+async function loadChatHistory() {
+  const { data, error } = await supabaseClient
+    .from("chat_messages")
+    .select("id, created_at, user_name, user_role, content")
+    .order("created_at", { ascending: true })
+    .limit(HISTORY_LIMIT);
+
+  if (error) {
+    console.error("Gagal muat history:", error);
+    setRtStatus("Gagal muat history: " + error.message, "var(--red)");
+    return;
+  }
+  const box = $("rtMessages");
+  box.replaceChildren();
+  data.forEach(appendChatMessage);
+  box.scrollTop = box.scrollHeight;
+}
+
+async function initRealtimeChat() {
+  if (!currentSession) {
+    setRtStatus("Login diperlukan untuk chat.", "var(--yellow)");
+    return;
+  }
+  if (typeof supabase === "undefined") {
+    setRtStatus("Library Supabase gagal dimuat.", "var(--red)");
+    return;
+  }
+
+  // Auth anonymous untuk chat (jika belum)
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) {
+    const { error: authErr } = await supabaseClient.auth.signInAnonymously();
+    if (authErr) {
+      setRtStatus("Gagal auth: " + authErr.message, "var(--red)");
+      return;
+    }
+  }
+
+  await loadChatHistory();
+
+  if (chatChannel) supabaseClient.removeChannel(chatChannel);
+
+  chatChannel = supabaseClient.channel(CHAT_TOPIC, {
+    config: { private: true }
+  });
+
+  chatChannel
+    .on("broadcast", { event: "message" }, payload => {
+      const msg = payload.payload || {};
+      if (msg.senderId === currentSession.username) return;
+      appendChatMessage(msg);
+    })
+    .subscribe(status => {
+      if (status === "SUBSCRIBED") {
+        chatReady = true;
+        setRtStatus("Terhubung. History " + HISTORY_LIMIT + " pesan terakhir dimuat.", "var(--green)");
+      } else if (status === "CHANNEL_ERROR") {
+        setRtStatus("Gagal terhubung. Periksa RLS policy.", "var(--red)");
+      } else if (status === "TIMED_OUT") {
+        setRtStatus("Koneksi timeout.", "var(--yellow)");
+      } else {
+        setRtStatus("Status: " + status, "var(--muted)");
+      }
+    });
+}
+
+async function sendRealtimeMessage() {
+  if (!currentSession) {
+    setRtStatus("Login diperlukan.", "var(--red)");
+    return;
+  }
+  if (!chatReady || !chatChannel) {
+    setRtStatus("Chat belum siap, tunggu sebentar...", "var(--yellow)");
+    return;
+  }
+
+  const input = $("rtInput");
+  const text = (input.value || "").trim();
+  if (!text) return;
+
+  const { error: dbErr } = await supabaseClient
+    .from("chat_messages")
+    .insert({
+      user_name: currentSession.username,
+      user_role: currentSession.role,
+      content: text
+    });
+
+  if (dbErr) {
+    setRtStatus("Gagal simpan pesan: " + dbErr.message, "var(--red)");
+    return;
+  }
+
+  const msg = {
+    user_name: currentSession.username,
+    user_role: currentSession.role,
+    content: text,
+    timestamp: Date.now(),
+    senderId: currentSession.username
+  };
+
+  await chatChannel.send({
+    type: "broadcast",
+    event: "message",
+    payload: msg
+  });
+
+  appendChatMessage(msg);
+  input.value = "";
+  input.focus();
+}
+
+$("rtSendBtn").addEventListener("click", sendRealtimeMessage);
+$("rtInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") { e.preventDefault(); sendRealtimeMessage(); }
+});
+
+/* REPORT */
+$("reportBtn").addEventListener("click", () => {
+  const report = {
+    createdAt: new Date().toISOString(),
+    user: currentSession ? { username: currentSession.username, role: currentSession.role } : null,
+    file: selectedFile ? { name: selectedFile.name, size: selectedFile.size } : null,
+    archiveEntryCount: entries.length,
+    findings,
+    websiteUrl: $("urlInput").value.trim() || null,
+    websiteChecks: $("urlResults").innerText,
+    warning: "Static heuristic report. Not a malware verdict."
+  };
+  const blob = new Blob([JSON.stringify(report, null, 2)], {type:"application/json"});
+  const objectUrl = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = objectUrl;
+  a.download = "security-analysis-report.json";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  log("Laporan JSON diekspor.", "ok");
+});
+
+/* NAVIGATION */
+function openDrawer() {
+  $("drawer").classList.add("open");
+  $("drawerBackdrop").classList.add("open");
+}
+function closeDrawer() {
+  $("drawer").classList.remove("open");
+  $("drawerBackdrop").classList.remove("open");
+}
+function openAI() {
+  closeDrawer();
+  $("aiOverlay").classList.add("open");
+  $("chatInput").focus();
+}
+function closeAI() { $("aiOverlay").classList.remove("open"); }
+
+$("menuBtn").addEventListener("click", openDrawer);
+$("closeMenuBtn").addEventListener("click", closeDrawer);
+$("drawerBackdrop").addEventListener("click", closeDrawer);
+$("closeAiBtn").addEventListener("click", closeAI);
+$("closeAdminBtn").addEventListener("click", closeAdmin);
+
+document.querySelectorAll("[data-nav]").forEach(button => {
+  button.addEventListener("click", () => {
+    const target = button.dataset.nav;
+    closeDrawer();
+    if (target === "ai") { openAI(); return; }
+    if (target === "website") { $("websitePanel").scrollIntoView({behavior:"smooth"}); return; }
+    if (target === "chat")   { $("chatPanel").scrollIntoView({behavior:"smooth"}); return; }
+    if (target === "admin")  { openAdmin(); return; }
+    if (target === "logout") { doLogout(); return; }
+    $("dashboard").scrollIntoView({behavior:"smooth"});
+  });
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") { closeDrawer(); closeAI(); closeAdmin(); }
+});
+
+$("loginBtn").addEventListener("click", doLogin);
+$("loginPass").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+$("loginUser").addEventListener("keydown", e => { if (e.key === "Enter") $("loginPass").focus(); });
+
+$("addUserBtn").addEventListener("click", addUser);
+
+/* BOOTSTRAP */
+(async function boot() {
+  const session = loadSession();
+  if (session) {
+    currentSession = session;
+    applyRoleUI(session);
+    hideLogin();
+    log("Session aktif: " + session.username + " (" + session.role + ")", "ok");
+    initRealtimeChat();
+  } else {
+    applyRoleUI(null);
+    showLogin();
+  }
+
+  resetFindings();
+  updateStats();
+  log("Analyzer siap. Login via Database.", "ok");
+})();
+</script>
+</body>
+  </html>
