@@ -128,7 +128,7 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
 .drawer-nav button{text-align:left}
 .drawer-note{margin-top:18px;font-size:11px;color:var(--muted)}
 
-/* LOGIN */
+/* LOGIN GUEST */
 .login-overlay{
  position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at top,#122238,#050a11 60%);
  display:flex;align-items:center;justify-content:center;padding:16px
@@ -141,7 +141,6 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
 }
 .login-card h1{font-size:20px;margin:0 0 4px}
 .login-card .row{margin-top:10px}
-.login-err{color:var(--red);font-size:11px;margin-top:8px;min-height:16px}
 
 /* ROLE BADGE */
 .role-owner{background:#3a2a10;border-color:#ffb84d;color:#ffd591}
@@ -149,16 +148,6 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
 .role-pt{background:#0f2e26;border-color:#44e0a0;color:#a8f5d3}
 .role-member{background:#10283a;border-color:#43b6ff;color:#aee0ff}
 .role-pacar-xenon{background:#3a1024;border-color:#ff65a3;color:#ffb3d1}
-
-/* PASSWORD EDIT INLINE */
-.pw-edit{
- margin-top:8px;padding:10px;border:1px dashed #2b4053;border-radius:6px;
- background:#060d14;display:none
-}
-.pw-edit.open{display:block}
-.pw-edit .row{margin-top:6px}
-.pw-edit input{font-size:11px}
-.pw-msg{font-size:11px;margin-top:6px;min-height:14px}
 
 @media(max-width:760px){
  main{padding:9px}.grid{gap:9px}
@@ -171,25 +160,17 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
 </head>
 <body>
 
-<!-- ============ LOGIN OVERLAY ============ -->
+<!-- ============ LOGIN GUEST OVERLAY ============ -->
 <section id="loginOverlay" class="login-overlay" role="dialog" aria-modal="true">
   <div class="login-card">
-    <h1>🔐 LOGIN REQUIRED</h1>
-    <div class="muted">Akses terbatas. Hanya user terdaftar yang dapat masuk.</div>
+    <h1>👋 MASUKKAN NAMA</h1>
+    <div class="muted">Ketik nama panggilanmu untuk masuk.</div>
 
     <div class="row" style="margin-top:14px">
-      <input id="loginUser" type="text" placeholder="Username" autocomplete="username">
-    </div>
-    <div class="row">
-      <input id="loginPass" type="password" placeholder="Password" autocomplete="current-password">
+      <input id="loginUser" type="text" placeholder="Nama (misal: Fxen)" maxlength="20">
     </div>
     <div class="row">
       <button id="loginBtn" style="width:100%">MASUK</button>
-    </div>
-    <div id="loginErr" class="login-err"></div>
-
-    <div class="muted" style="margin-top:14px;font-size:10px">
-      Owner: <b>Fxen</b> / <b>Fxen123!</b>
     </div>
   </div>
 </section>
@@ -220,7 +201,7 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
   <button data-nav="chat">Realtime Chat</button>
   <button data-nav="ai">AI Assistant</button>
   <button data-nav="admin" id="adminNavBtn" style="display:none">Owner Panel</button>
-  <button data-nav="logout" class="dangerbtn">Logout</button>
+  <button data-nav="logout" class="dangerbtn">Ganti Nama</button>
  </nav>
  <div class="drawer-note">
   Analisis APK dan URL dilakukan secara lokal menggunakan aturan heuristik.
@@ -242,7 +223,6 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
      <h2>BUAT USER BARU</h2>
      <div class="row" style="margin-top:8px">
        <input id="newUser" class="grow" type="text" placeholder="username">
-       <input id="newPass" class="grow" type="password" placeholder="password (min 6)">
        <select id="newRole" class="grow">
          <option value="member">member</option>
          <option value="ceo">ceo</option>
@@ -401,37 +381,28 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
 const $ = id => document.getElementById(id);
 
 /* ==========================================================
-   KONFIGURASI SUPABASE
+   KONFIGURASI SUPABASE (PASTIKAN URL & KEY SUDAH BENAR)
    ========================================================== */
 const SUPABASE_URL  = "https://igqetxlihvtlqcarmmbn.supabase.co";
 const SUPABASE_KEY  = "sb_publishable_ASbXRCLD7lTy9G_SDfRh7A_eZHOEzfz";
-const SESSION_KEY   = "awz_session_v3";
-const ROLES         = ["owner", "ceo", "pt", "member", "pacar xenon"];
+const SESSION_KEY   = "awz_session_v4";
 
 let supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let currentSession = null;
 
 /* ==========================================================
-   AUTH / USER DATABASE (SUPABASE)
+   AUTH (TANPA PASSWORD)
    ========================================================== */
-async function sha256(text) {
-  const buf = new TextEncoder().encode(text);
-  const hash = await crypto.subtle.digest("SHA-256", buf);
-  return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, "0")).join("");
-}
-
-async function verifyLogin(username, password) {
+async function verifyLogin(username) {
+  // Cari user di database
   const { data, error } = await supabaseClient
     .from("app_users")
-    .select("*")
+    .select("username, role")
     .eq("username", username)
     .single();
 
-  if (error || !data) return { ok:false, reason:"Username tidak terdaftar di database." };
-  
-  const hash = await sha256(password);
-  if (hash !== data.pass_hash) return { ok:false, reason:"Password salah." };
+  // Jika error atau user tidak ada
+  if (error || !data) return { ok:false, reason:"Nama tidak terdaftar di database." };
   
   return { ok:true, user: data };
 }
@@ -460,7 +431,6 @@ function clearSession() {
   currentSession = null;
 }
 
-// Mengubah spasi menjadi strip (-) agar cocok dengan class CSS
 function roleBadgeClass(role) {
   return "badge role-" + role.replace(/\s+/g, '-');
 }
@@ -481,8 +451,6 @@ function applyRoleUI(session) {
 function showLogin() {
   $("loginOverlay").classList.remove("hidden");
   $("loginUser").value = "";
-  $("loginPass").value = "";
-  $("loginErr").textContent = "";
   setTimeout(() => $("loginUser").focus(), 50);
 }
 
@@ -492,20 +460,13 @@ function hideLogin() {
 
 async function doLogin() {
   const username = $("loginUser").value.trim();
-  const password = $("loginPass").value;
-  $("loginErr").textContent = "";
-
-  if (!username || !password) {
-    $("loginErr").textContent = "Username dan password wajib diisi.";
-    return;
-  }
+  if (!username) return alert("Masukkan nama terlebih dahulu!");
 
   $("loginBtn").disabled = true;
   try {
-    const res = await verifyLogin(username, password);
+    const res = await verifyLogin(username);
     if (!res.ok) {
-      $("loginErr").textContent = "Akses ditolak. " + res.reason;
-      log("LOGIN DITOLAK: " + username + " — " + res.reason, "err");
+      alert("Akses ditolak. " + res.reason);
       return;
     }
     saveSession(res.user);
@@ -514,7 +475,7 @@ async function doLogin() {
     log("LOGIN BERHASIL: " + username + " (" + res.user.role + ")", "ok");
     initRealtimeChat();
   } catch(err) {
-    $("loginErr").textContent = "Gagal memproses login: " + err.message;
+    alert("Error: " + err.message);
   } finally {
     $("loginBtn").disabled = false;
   }
@@ -562,7 +523,7 @@ async function refreshUserList() {
 
   const { data: users, error } = await supabaseClient
     .from("app_users")
-    .select("*")
+    .select("id, username, role, created_at")
     .order("created_at", { ascending: true });
 
   box.replaceChildren();
@@ -597,20 +558,11 @@ async function refreshUserList() {
     btnRow.className = "row";
     btnRow.style.marginTop = "6px";
 
-    const editBtn = document.createElement("button");
-    editBtn.className = "editbtn";
-    editBtn.textContent = "GANTI PASSWORD";
-    btnRow.appendChild(editBtn);
-
-    if (!(u.username === "Fxen" && u.role === "owner") && currentSession.role === "owner") {
+    if (u.username !== "Fxen" && currentSession.role === "owner") {
       const del = document.createElement("button");
       del.className = "dangerbtn";
       del.textContent = "HAPUS USER";
       del.addEventListener("click", async () => {
-        if (u.role === "owner" && users.filter(x => x.role === "owner").length <= 1) {
-          $("adminMsg").textContent = "Tidak bisa menghapus owner terakhir.";
-          return;
-        }
         const { error: delErr } = await supabaseClient.from("app_users").delete().eq("id", u.id);
         if (delErr) {
           $("adminMsg").textContent = "Gagal hapus: " + delErr.message;
@@ -624,71 +576,6 @@ async function refreshUserList() {
     }
 
     card.appendChild(btnRow);
-
-    const pwEdit = document.createElement("div");
-    pwEdit.className = "pw-edit";
-    pwEdit.innerHTML =
-      '<div class="muted" style="font-size:10px">Password baru untuk <b>' +
-      u.username + '</b> (min 6 karakter)</div>' +
-      '<div class="row">' +
-      '  <input class="grow" type="password" placeholder="Password baru">' +
-      '  <input class="grow" type="password" placeholder="Ulangi password">' +
-      '  <button class="editbtn savepw">SIMPAN</button>' +
-      '  <button class="secondary cancelpw">BATAL</button>' +
-      '</div>' +
-      '<div class="pw-msg"></div>';
-
-    const [newPw, confirmPw] = pwEdit.querySelectorAll('input[type="password"]');
-    const saveBtn = pwEdit.querySelector(".savepw");
-    const cancelBtn = pwEdit.querySelector(".cancelpw");
-    const pwMsg = pwEdit.querySelector(".pw-msg");
-
-    editBtn.addEventListener("click", () => {
-      pwEdit.classList.toggle("open");
-      if (pwEdit.classList.contains("open")) {
-        newPw.value = ""; confirmPw.value = ""; pwMsg.textContent = "";
-        setTimeout(() => newPw.focus(), 50);
-      }
-    });
-
-    cancelBtn.addEventListener("click", () => {
-      pwEdit.classList.remove("open");
-    });
-
-    saveBtn.addEventListener("click", async () => {
-      const p1 = newPw.value;
-      const p2 = confirmPw.value;
-      pwMsg.style.color = "var(--red)";
-
-      if (p1.length < 6) {
-        pwMsg.textContent = "Password minimal 6 karakter."; return;
-      }
-      if (p1 !== p2) {
-        pwMsg.textContent = "Konfirmasi password tidak sama."; return;
-      }
-
-      saveBtn.disabled = true;
-      const newHash = await sha256(p1);
-      
-      const { error: updErr } = await supabaseClient
-        .from("app_users")
-        .update({ pass_hash: newHash })
-        .eq("id", u.id);
-        
-      saveBtn.disabled = false;
-
-      if (updErr) {
-        pwMsg.textContent = "Gagal update: " + updErr.message; return;
-      }
-
-      pwMsg.style.color = "var(--green)";
-      pwMsg.textContent = "Password diperbarui.";
-      log("OWNER: password user " + u.username + " diubah.", "ok");
-
-      setTimeout(() => { pwEdit.classList.remove("open"); }, 900);
-    });
-
-    card.appendChild(pwEdit);
     box.appendChild(card);
   }
 }
@@ -699,30 +586,18 @@ async function addUser() {
     return;
   }
   const username = $("newUser").value.trim();
-  const password = $("newPass").value;
   const role = $("newRole").value;
   $("adminMsg").textContent = "";
 
   if (username.length < 3) {
     $("adminMsg").textContent = "Username minimal 3 karakter."; return;
   }
-  if (!/^[A-Za-z0-9_.-]+$/.test(username)) {
-    $("adminMsg").textContent = "Username hanya boleh huruf, angka, _, ., -"; return;
-  }
-  if (password.length < 6) {
-    $("adminMsg").textContent = "Password minimal 6 karakter."; return;
-  }
-  if (!ROLES.includes(role)) {
-    $("adminMsg").textContent = "Role tidak valid."; return;
-  }
 
   $("addUserBtn").disabled = true;
-  const hash = await sha256(password);
   
   const { error } = await supabaseClient.from("app_users").insert({
     username: username,
-    role: role,
-    pass_hash: hash
+    role: role
   });
   
   $("addUserBtn").disabled = false;
@@ -737,7 +612,6 @@ async function addUser() {
   }
 
   $("newUser").value = "";
-  $("newPass").value = "";
   $("adminMsg").textContent = "User " + username + " (" + role + ") ditambahkan.";
   log("OWNER: tambah user " + username + " role=" + role, "ok");
   refreshUserList();
@@ -1227,8 +1101,6 @@ function appendChatMessage(msg) {
   line.className = "log";
   const t = new Date(msg.created_at || msg.timestamp || Date.now())
     .toLocaleTimeString("id-ID");
-  
-  // Warna role
   const roleClass = roleBadgeClass(msg.user_role || msg.role || "member");
   
   line.innerHTML =
@@ -1275,7 +1147,6 @@ async function initRealtimeChat() {
     return;
   }
 
-  // Auth anonymous untuk chat (jika belum)
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (!session) {
     const { error: authErr } = await supabaseClient.auth.signInAnonymously();
@@ -1426,8 +1297,7 @@ document.addEventListener("keydown", e => {
 });
 
 $("loginBtn").addEventListener("click", doLogin);
-$("loginPass").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
-$("loginUser").addEventListener("keydown", e => { if (e.key === "Enter") $("loginPass").focus(); });
+$("loginUser").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
 
 $("addUserBtn").addEventListener("click", addUser);
 
@@ -1447,7 +1317,7 @@ $("addUserBtn").addEventListener("click", addUser);
 
   resetFindings();
   updateStats();
-  log("Analyzer siap. Login via Database.", "ok");
+  log("Analyzer siap. Mode Tanpa Password.", "ok");
 })();
 </script>
 </body>
