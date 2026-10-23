@@ -49,6 +49,8 @@ button:hover,.button:hover{background:#153b56}
 button:disabled{opacity:.45;cursor:not-allowed}
 .secondary{background:#101923;border-color:#34495c}
 .dangerbtn{background:#35151d;border-color:#8b3445}
+.editbtn{background:#1a2a12;border-color:#4c7a2e;color:#c8f0a0}
+.editbtn:hover{background:#22381a}
 input[type=text],input[type=url],input[type=password],textarea,select{
  width:100%;padding:10px;background:#070d14;color:var(--text);
  border:1px solid #2b4053;border-radius:6px;font:inherit;font-size:12px
@@ -126,7 +128,7 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
 .drawer-nav button{text-align:left}
 .drawer-note{margin-top:18px;font-size:11px;color:var(--muted)}
 
-/* LOGIN / GUEST NAME */
+/* LOGIN */
 .login-overlay{
  position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at top,#122238,#050a11 60%);
  display:flex;align-items:center;justify-content:center;padding:16px
@@ -139,12 +141,24 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
 }
 .login-card h1{font-size:20px;margin:0 0 4px}
 .login-card .row{margin-top:10px}
+.login-err{color:var(--red);font-size:11px;margin-top:8px;min-height:16px}
 
 /* ROLE BADGE */
 .role-owner{background:#3a2a10;border-color:#ffb84d;color:#ffd591}
 .role-ceo{background:#2a1338;border-color:#b37bff;color:#e0c8ff}
 .role-pt{background:#0f2e26;border-color:#44e0a0;color:#a8f5d3}
 .role-member{background:#10283a;border-color:#43b6ff;color:#aee0ff}
+.role-pacar-xenon{background:#3a1024;border-color:#ff65a3;color:#ffb3d1}
+
+/* PASSWORD EDIT INLINE */
+.pw-edit{
+ margin-top:8px;padding:10px;border:1px dashed #2b4053;border-radius:6px;
+ background:#060d14;display:none
+}
+.pw-edit.open{display:block}
+.pw-edit .row{margin-top:6px}
+.pw-edit input{font-size:11px}
+.pw-msg{font-size:11px;margin-top:6px;min-height:14px}
 
 @media(max-width:760px){
  main{padding:9px}.grid{gap:9px}
@@ -157,17 +171,25 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
 </head>
 <body>
 
-<!-- ============ GUEST NAME OVERLAY ============ -->
+<!-- ============ LOGIN OVERLAY ============ -->
 <section id="loginOverlay" class="login-overlay" role="dialog" aria-modal="true">
   <div class="login-card">
-    <h1>👋 SELAMAT DATANG</h1>
-    <div class="muted">Masukkan nama panggilan kamu untuk fitur chat.</div>
+    <h1>🔐 LOGIN REQUIRED</h1>
+    <div class="muted">Akses terbatas. Hanya user terdaftar yang dapat masuk.</div>
 
     <div class="row" style="margin-top:14px">
-      <input id="loginUser" type="text" placeholder="Nama Panggilan (misal: Fxen)" maxlength="20">
+      <input id="loginUser" type="text" placeholder="Username" autocomplete="username">
     </div>
     <div class="row">
-      <button id="loginBtn" style="width:100%">MULAI APLIKASI</button>
+      <input id="loginPass" type="password" placeholder="Password" autocomplete="current-password">
+    </div>
+    <div class="row">
+      <button id="loginBtn" style="width:100%">MASUK</button>
+    </div>
+    <div id="loginErr" class="login-err"></div>
+
+    <div class="muted" style="margin-top:14px;font-size:10px">
+      Owner: <b>Fxen</b> / <b>Fxen123!</b>
     </div>
   </div>
 </section>
@@ -180,7 +202,7 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
    <div class="muted">LOCAL STATIC SCANNER · URL SECURITY CHECK</div>
   </div>
   <div class="row">
-    <span id="sessionBadge" class="badge role-member">Guest</span>
+    <span id="sessionBadge" class="badge role-member">guest</span>
     <button id="menuBtn" aria-label="Buka menu">☰</button>
   </div>
  </div>
@@ -197,13 +219,47 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
   <button data-nav="website">Website Analyzer</button>
   <button data-nav="chat">Realtime Chat</button>
   <button data-nav="ai">AI Assistant</button>
-  <button data-nav="logout" class="dangerbtn">Ganti Nama</button>
+  <button data-nav="admin" id="adminNavBtn" style="display:none">Owner Panel</button>
+  <button data-nav="logout" class="dangerbtn">Logout</button>
  </nav>
  <div class="drawer-note">
   Analisis APK dan URL dilakukan secara lokal menggunakan aturan heuristik.
   Chat real-time ditenagai Supabase.
  </div>
 </aside>
+
+<!-- ============ OWNER PANEL ============ -->
+<section id="adminPanel" class="ai-overlay" role="dialog" aria-modal="true">
+ <div class="ai-top">
+  <div>
+   <div class="ai-title">OWNER PANEL — USER MANAGEMENT</div>
+   <div class="muted">Hanya owner yang dapat mengelola user & role.</div>
+  </div>
+  <button id="closeAdminBtn" class="secondary">TUTUP ✕</button>
+ </div>
+ <div class="chat-scroll">
+   <div class="panel">
+     <h2>BUAT USER BARU</h2>
+     <div class="row" style="margin-top:8px">
+       <input id="newUser" class="grow" type="text" placeholder="username">
+       <input id="newPass" class="grow" type="password" placeholder="password (min 6)">
+       <select id="newRole" class="grow">
+         <option value="member">member</option>
+         <option value="ceo">ceo</option>
+         <option value="pt">pt</option>
+         <option value="pacar xenon">pacar xenon</option>
+       </select>
+       <button id="addUserBtn">TAMBAH USER</button>
+     </div>
+     <div id="adminMsg" class="muted" style="margin-top:8px"></div>
+   </div>
+
+   <div class="panel">
+     <h2>DAFTAR USER TERDAFTAR</h2>
+     <div id="userList" class="findings"></div>
+   </div>
+ </div>
+</section>
 
 <!-- ============ AI OVERLAY ============ -->
 <section id="aiOverlay" class="ai-overlay" role="dialog" aria-modal="true">
@@ -308,14 +364,14 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
   <div class="panel span12" id="chatPanel">
    <h2>07 / REALTIME CHAT</h2>
    <div class="muted" style="margin-bottom:8px">
-    Chat publik antar pengguna. Pesan disimpan sebagai history (50 terakhir).
+    Chat publik antar user yang login. Pesan disimpan sebagai history (50 terakhir).
    </div>
    <div id="rtMessages" class="terminal" style="height:260px;margin-bottom:10px"></div>
    <div class="row">
     <input id="rtInput" class="grow" type="text" placeholder="Tulis pesan..." maxlength="500">
     <button id="rtSendBtn">KIRIM</button>
    </div>
-   <div id="rtStatus" class="muted" style="margin-top:6px">Menunggu nama...</div>
+   <div id="rtStatus" class="muted" style="margin-top:6px">Menunggu login...</div>
   </div>
 
   <div class="panel span12">
@@ -345,31 +401,58 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--blue)}
 const $ = id => document.getElementById(id);
 
 /* ==========================================================
-   KONFIGURASI SUPABASE & SESSION
+   KONFIGURASI SUPABASE
    ========================================================== */
 const SUPABASE_URL  = "https://igqetxlihvtlqcarmmbn.supabase.co";
 const SUPABASE_KEY  = "sb_publishable_ASbXRCLD7lTy9G_SDfRh7A_eZHOEzfz";
-const SESSION_KEY   = "awz_guest_name";
+const SESSION_KEY   = "awz_session_v3";
+const ROLES         = ["owner", "ceo", "pt", "member", "pacar xenon"];
 
 let supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let currentSession = null;
 
 /* ==========================================================
-   GUEST NAME LOGIC
+   AUTH / USER DATABASE (SUPABASE)
    ========================================================== */
-function saveSession(name) {
-  sessionStorage.setItem(SESSION_KEY, name);
-  currentSession = { username: name, role: "member" };
-  applyRoleUI(currentSession);
+async function sha256(text) {
+  const buf = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest("SHA-256", buf);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function verifyLogin(username, password) {
+  const { data, error } = await supabaseClient
+    .from("app_users")
+    .select("*")
+    .eq("username", username)
+    .single();
+
+  if (error || !data) return { ok:false, reason:"Username tidak terdaftar di database." };
+  
+  const hash = await sha256(password);
+  if (hash !== data.pass_hash) return { ok:false, reason:"Password salah." };
+  
+  return { ok:true, user: data };
+}
+
+function saveSession(user) {
+  const s = {
+    username: user.username,
+    role: user.role,
+    loginAt: new Date().toISOString()
+  };
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(s));
+  currentSession = s;
+  return s;
 }
 
 function loadSession() {
-  const name = sessionStorage.getItem(SESSION_KEY);
-  if (name) {
-    currentSession = { username: name, role: "member" };
-    return currentSession;
-  }
-  return null;
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch(e){ return null; }
 }
 
 function clearSession() {
@@ -377,18 +460,29 @@ function clearSession() {
   currentSession = null;
 }
 
+// Mengubah spasi menjadi strip (-) agar cocok dengan class CSS
+function roleBadgeClass(role) {
+  return "badge role-" + role.replace(/\s+/g, '-');
+}
+
 function applyRoleUI(session) {
   const badge = $("sessionBadge");
   if (!session) {
-    badge.textContent = "Guest";
+    badge.textContent = "guest";
+    badge.className = "badge role-member";
+    $("adminNavBtn").style.display = "none";
     return;
   }
   badge.textContent = session.username + " · " + session.role;
+  badge.className = roleBadgeClass(session.role);
+  $("adminNavBtn").style.display = session.role === "owner" ? "inline-block" : "none";
 }
 
 function showLogin() {
   $("loginOverlay").classList.remove("hidden");
   $("loginUser").value = "";
+  $("loginPass").value = "";
+  $("loginErr").textContent = "";
   setTimeout(() => $("loginUser").focus(), 50);
 }
 
@@ -396,37 +490,257 @@ function hideLogin() {
   $("loginOverlay").classList.add("hidden");
 }
 
-function doLogin() {
-  const name = $("loginUser").value.trim();
-  if (name.length < 3) {
-    alert("Nama panggilan minimal 3 karakter.");
+async function doLogin() {
+  const username = $("loginUser").value.trim();
+  const password = $("loginPass").value;
+  $("loginErr").textContent = "";
+
+  if (!username || !password) {
+    $("loginErr").textContent = "Username dan password wajib diisi.";
     return;
   }
-  saveSession(name);
-  hideLogin();
-  log("Nama disimpan: " + name + ". Selamat datang!", "ok");
-  initRealtimeChat();
+
+  $("loginBtn").disabled = true;
+  try {
+    const res = await verifyLogin(username, password);
+    if (!res.ok) {
+      $("loginErr").textContent = "Akses ditolak. " + res.reason;
+      log("LOGIN DITOLAK: " + username + " — " + res.reason, "err");
+      return;
+    }
+    saveSession(res.user);
+    applyRoleUI(currentSession);
+    hideLogin();
+    log("LOGIN BERHASIL: " + username + " (" + res.user.role + ")", "ok");
+    initRealtimeChat();
+  } catch(err) {
+    $("loginErr").textContent = "Gagal memproses login: " + err.message;
+  } finally {
+    $("loginBtn").disabled = false;
+  }
 }
 
-function doLogout() {
-  const name = currentSession ? currentSession.username : "Guest";
+async function doLogout() {
+  const name = currentSession ? currentSession.username : "guest";
+  if (supabaseClient) {
+    try { supabaseClient.removeAllChannels(); } catch(e){}
+    try { await supabaseClient.auth.signOut(); } catch(e){}
+    
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
+    chatChannel = null;
+    chatReady = false;
+    const rt = $("rtMessages");
+    if (rt) rt.replaceChildren();
+  }
   clearSession();
   applyRoleUI(null);
   closeDrawer();
+  closeAdmin();
   closeAI();
   resetScanState();
-  
-  if (supabaseClient) {
-    try { supabaseClient.removeAllChannels(); } catch(e){}
-    try { supabaseClient.auth.signOut(); } catch(e){}
-    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    chatChannel = null;
-    chatReady = false;
-    $("rtMessages").replaceChildren();
-  }
-  
-  log("Ganti nama. Sesi " + name + " berakhir.", "warn");
+  log("LOGOUT: " + name, "warn");
   showLogin();
+}
+
+/* -------- OWNER PANEL: USER MANAGEMENT -------- */
+function openAdmin() {
+  if (!currentSession || currentSession.role !== "owner") {
+    log("Akses ditolak: hanya owner yang boleh membuka Owner Panel.", "err");
+    return;
+  }
+  closeDrawer();
+  $("adminPanel").classList.add("open");
+  refreshUserList();
+}
+function closeAdmin() { $("adminPanel").classList.remove("open"); }
+
+async function refreshUserList() {
+  const box = $("userList");
+  box.replaceChildren();
+  box.innerHTML = '<div class="empty">Memuat data user...</div>';
+
+  const { data: users, error } = await supabaseClient
+    .from("app_users")
+    .select("*")
+    .order("created_at", { ascending: true });
+
+  box.replaceChildren();
+
+  if (error) {
+    box.innerHTML = '<div class="empty err">Gagal memuat user: ' + error.message + '</div>';
+    return;
+  }
+
+  if (!users.length) {
+    box.innerHTML = '<div class="empty">Belum ada user.</div>';
+    return;
+  }
+
+  for (const u of users) {
+    const card = document.createElement("div");
+    card.className = "finding low";
+
+    const h = document.createElement("h3");
+    h.textContent = u.username + "  ";
+    const b = document.createElement("span");
+    b.className = roleBadgeClass(u.role);
+    b.textContent = u.role;
+    h.appendChild(b);
+
+    const meta = document.createElement("p");
+    meta.textContent = "Dibuat: " + new Date(u.created_at).toLocaleString("id-ID");
+
+    card.append(h, meta);
+
+    const btnRow = document.createElement("div");
+    btnRow.className = "row";
+    btnRow.style.marginTop = "6px";
+
+    const editBtn = document.createElement("button");
+    editBtn.className = "editbtn";
+    editBtn.textContent = "GANTI PASSWORD";
+    btnRow.appendChild(editBtn);
+
+    if (!(u.username === "Fxen" && u.role === "owner") && currentSession.role === "owner") {
+      const del = document.createElement("button");
+      del.className = "dangerbtn";
+      del.textContent = "HAPUS USER";
+      del.addEventListener("click", async () => {
+        if (u.role === "owner" && users.filter(x => x.role === "owner").length <= 1) {
+          $("adminMsg").textContent = "Tidak bisa menghapus owner terakhir.";
+          return;
+        }
+        const { error: delErr } = await supabaseClient.from("app_users").delete().eq("id", u.id);
+        if (delErr) {
+          $("adminMsg").textContent = "Gagal hapus: " + delErr.message;
+        } else {
+          $("adminMsg").textContent = "User " + u.username + " dihapus.";
+          log("OWNER: hapus user " + u.username, "warn");
+          refreshUserList();
+        }
+      });
+      btnRow.appendChild(del);
+    }
+
+    card.appendChild(btnRow);
+
+    const pwEdit = document.createElement("div");
+    pwEdit.className = "pw-edit";
+    pwEdit.innerHTML =
+      '<div class="muted" style="font-size:10px">Password baru untuk <b>' +
+      u.username + '</b> (min 6 karakter)</div>' +
+      '<div class="row">' +
+      '  <input class="grow" type="password" placeholder="Password baru">' +
+      '  <input class="grow" type="password" placeholder="Ulangi password">' +
+      '  <button class="editbtn savepw">SIMPAN</button>' +
+      '  <button class="secondary cancelpw">BATAL</button>' +
+      '</div>' +
+      '<div class="pw-msg"></div>';
+
+    const [newPw, confirmPw] = pwEdit.querySelectorAll('input[type="password"]');
+    const saveBtn = pwEdit.querySelector(".savepw");
+    const cancelBtn = pwEdit.querySelector(".cancelpw");
+    const pwMsg = pwEdit.querySelector(".pw-msg");
+
+    editBtn.addEventListener("click", () => {
+      pwEdit.classList.toggle("open");
+      if (pwEdit.classList.contains("open")) {
+        newPw.value = ""; confirmPw.value = ""; pwMsg.textContent = "";
+        setTimeout(() => newPw.focus(), 50);
+      }
+    });
+
+    cancelBtn.addEventListener("click", () => {
+      pwEdit.classList.remove("open");
+    });
+
+    saveBtn.addEventListener("click", async () => {
+      const p1 = newPw.value;
+      const p2 = confirmPw.value;
+      pwMsg.style.color = "var(--red)";
+
+      if (p1.length < 6) {
+        pwMsg.textContent = "Password minimal 6 karakter."; return;
+      }
+      if (p1 !== p2) {
+        pwMsg.textContent = "Konfirmasi password tidak sama."; return;
+      }
+
+      saveBtn.disabled = true;
+      const newHash = await sha256(p1);
+      
+      const { error: updErr } = await supabaseClient
+        .from("app_users")
+        .update({ pass_hash: newHash })
+        .eq("id", u.id);
+        
+      saveBtn.disabled = false;
+
+      if (updErr) {
+        pwMsg.textContent = "Gagal update: " + updErr.message; return;
+      }
+
+      pwMsg.style.color = "var(--green)";
+      pwMsg.textContent = "Password diperbarui.";
+      log("OWNER: password user " + u.username + " diubah.", "ok");
+
+      setTimeout(() => { pwEdit.classList.remove("open"); }, 900);
+    });
+
+    card.appendChild(pwEdit);
+    box.appendChild(card);
+  }
+}
+
+async function addUser() {
+  if (!currentSession || currentSession.role !== "owner") {
+    $("adminMsg").textContent = "Hanya owner yang dapat menambah user.";
+    return;
+  }
+  const username = $("newUser").value.trim();
+  const password = $("newPass").value;
+  const role = $("newRole").value;
+  $("adminMsg").textContent = "";
+
+  if (username.length < 3) {
+    $("adminMsg").textContent = "Username minimal 3 karakter."; return;
+  }
+  if (!/^[A-Za-z0-9_.-]+$/.test(username)) {
+    $("adminMsg").textContent = "Username hanya boleh huruf, angka, _, ., -"; return;
+  }
+  if (password.length < 6) {
+    $("adminMsg").textContent = "Password minimal 6 karakter."; return;
+  }
+  if (!ROLES.includes(role)) {
+    $("adminMsg").textContent = "Role tidak valid."; return;
+  }
+
+  $("addUserBtn").disabled = true;
+  const hash = await sha256(password);
+  
+  const { error } = await supabaseClient.from("app_users").insert({
+    username: username,
+    role: role,
+    pass_hash: hash
+  });
+  
+  $("addUserBtn").disabled = false;
+
+  if (error) {
+    if (error.code === "23505") { 
+      $("adminMsg").textContent = "Username sudah terdaftar.";
+    } else {
+      $("adminMsg").textContent = "Gagal menambah user: " + error.message;
+    }
+    return;
+  }
+
+  $("newUser").value = "";
+  $("newPass").value = "";
+  $("adminMsg").textContent = "User " + username + " (" + role + ") ditambahkan.";
+  log("OWNER: tambah user " + username + " role=" + role, "ok");
+  refreshUserList();
 }
 
 /* ==========================================================
@@ -913,10 +1227,13 @@ function appendChatMessage(msg) {
   line.className = "log";
   const t = new Date(msg.created_at || msg.timestamp || Date.now())
     .toLocaleTimeString("id-ID");
-  const roleClass = "role-" + (msg.user_role || msg.role || "member");
+  
+  // Warna role
+  const roleClass = roleBadgeClass(msg.user_role || msg.role || "member");
+  
   line.innerHTML =
     '<span class="muted">[' + t + ']</span> ' +
-    '<span class="' + roleClass + ' badge">' + escapeHtml(msg.user_role || msg.role || "member") + '</span> ' +
+    '<span class="' + roleClass + '">' + escapeHtml(msg.user_role || msg.role || "member") + '</span> ' +
     '<b style="color:var(--blue)">' + escapeHtml(msg.user_name || msg.user || "anon") + '</b>: ' +
     escapeHtml(msg.content || msg.text || "");
   box.appendChild(line);
@@ -950,7 +1267,7 @@ async function loadChatHistory() {
 
 async function initRealtimeChat() {
   if (!currentSession) {
-    setRtStatus("Masukkan nama terlebih dahulu.", "var(--yellow)");
+    setRtStatus("Login diperlukan untuk chat.", "var(--yellow)");
     return;
   }
   if (typeof supabase === "undefined") {
@@ -958,9 +1275,7 @@ async function initRealtimeChat() {
     return;
   }
 
-  setRtStatus("Menyambungkan...", "var(--muted)");
-
-  // Auth anonymous untuk chat (Supabase butuh ini untuk RLS)
+  // Auth anonymous untuk chat (jika belum)
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (!session) {
     const { error: authErr } = await supabaseClient.auth.signInAnonymously();
@@ -987,7 +1302,7 @@ async function initRealtimeChat() {
     .subscribe(status => {
       if (status === "SUBSCRIBED") {
         chatReady = true;
-        setRtStatus("Terhubung. History 50 pesan terakhir dimuat.", "var(--green)");
+        setRtStatus("Terhubung. History " + HISTORY_LIMIT + " pesan terakhir dimuat.", "var(--green)");
       } else if (status === "CHANNEL_ERROR") {
         setRtStatus("Gagal terhubung. Periksa RLS policy.", "var(--red)");
       } else if (status === "TIMED_OUT") {
@@ -1000,7 +1315,7 @@ async function initRealtimeChat() {
 
 async function sendRealtimeMessage() {
   if (!currentSession) {
-    setRtStatus("Masukkan nama terlebih dahulu.", "var(--red)");
+    setRtStatus("Login diperlukan.", "var(--red)");
     return;
   }
   if (!chatReady || !chatChannel) {
@@ -1091,6 +1406,7 @@ $("menuBtn").addEventListener("click", openDrawer);
 $("closeMenuBtn").addEventListener("click", closeDrawer);
 $("drawerBackdrop").addEventListener("click", closeDrawer);
 $("closeAiBtn").addEventListener("click", closeAI);
+$("closeAdminBtn").addEventListener("click", closeAdmin);
 
 document.querySelectorAll("[data-nav]").forEach(button => {
   button.addEventListener("click", () => {
@@ -1099,25 +1415,30 @@ document.querySelectorAll("[data-nav]").forEach(button => {
     if (target === "ai") { openAI(); return; }
     if (target === "website") { $("websitePanel").scrollIntoView({behavior:"smooth"}); return; }
     if (target === "chat")   { $("chatPanel").scrollIntoView({behavior:"smooth"}); return; }
+    if (target === "admin")  { openAdmin(); return; }
     if (target === "logout") { doLogout(); return; }
     $("dashboard").scrollIntoView({behavior:"smooth"});
   });
 });
 
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape") { closeDrawer(); closeAI(); }
+  if (e.key === "Escape") { closeDrawer(); closeAI(); closeAdmin(); }
 });
 
 $("loginBtn").addEventListener("click", doLogin);
-$("loginUser").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+$("loginPass").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+$("loginUser").addEventListener("keydown", e => { if (e.key === "Enter") $("loginPass").focus(); });
+
+$("addUserBtn").addEventListener("click", addUser);
 
 /* BOOTSTRAP */
 (async function boot() {
   const session = loadSession();
   if (session) {
+    currentSession = session;
     applyRoleUI(session);
     hideLogin();
-    log("Session aktif: " + session.username, "ok");
+    log("Session aktif: " + session.username + " (" + session.role + ")", "ok");
     initRealtimeChat();
   } else {
     applyRoleUI(null);
@@ -1126,7 +1447,8 @@ $("loginUser").addEventListener("keydown", e => { if (e.key === "Enter") doLogin
 
   resetFindings();
   updateStats();
+  log("Analyzer siap. Login via Database.", "ok");
 })();
 </script>
 </body>
-</html>
+ </html>
