@@ -1,0 +1,749 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#080c14">
+<title>Lua AI Detector Pro</title>
+
+<style>
+:root{
+  --bg:#080c14;
+  --panel:#0e1521;
+  --panel2:#0a101a;
+  --line:#202d40;
+  --blue:#398bff;
+  --blue2:#173a68;
+  --text:#e5edf8;
+  --muted:#8291a7;
+  --green:#4be0a0;
+  --yellow:#ffcc70;
+  --red:#ff7485;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font:13px/1.6 Consolas,Monaco,monospace;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:wait}
+header{
+  position:sticky;top:0;z-index:5;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;flex-wrap:wrap;padding:15px 22px;
+  background:#0b111c;border-bottom:1px solid var(--line);
+}
+.logo{font-size:19px;font-weight:bold;letter-spacing:1px}
+.logo span{color:var(--blue)}
+.header-right{display:flex;align-items:center;gap:12px}
+.status{font-size:10px;color:var(--green)}
+.status::before{content:"";display:inline-block;width:6px;height:6px;
+  background:currentColor;border-radius:50%;margin-right:7px}
+main{max-width:1450px;margin:auto;padding:18px}
+button{
+  background:#111d2c;border:1px solid #2a3b52;
+  color:var(--text);border-radius:5px;padding:9px 12px;
+  transition:border-color .15s,background .15s;
+}
+button:hover{border-color:var(--blue)}
+button.primary{background:#1554a0;border-color:#398bff}
+button.secondary{background:transparent}
+button.danger{color:#ff9aa5}
+.topline{display:flex;justify-content:space-between;gap:12px;align-items:start}
+.page-title{font-size:18px;margin:0 0 5px}
+.muted{color:var(--muted);font-size:11px;line-height:1.8}
+.layout{
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  gap:14px;margin-top:16px;align-items:start;
+}
+.column{display:grid;gap:14px;min-width:0}
+.panel{
+  min-width:0;background:var(--panel);
+  border:1px solid var(--line);border-radius:8px;padding:15px;
+}
+.panel-head{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;flex-wrap:wrap;margin-bottom:12px;
+}
+.panel-title{font-size:12px;font-weight:bold;letter-spacing:.6px}
+.index{color:var(--blue);margin-right:8px}
+.pill{
+  display:inline-block;padding:3px 7px;border-radius:4px;
+  background:#121f30;color:#91bfff;font-size:9px;
+}
+textarea{
+  display:block;width:100%;resize:vertical;
+  background:var(--panel2);color:#c8dcf8;
+  border:1px solid #24334a;border-radius:5px;
+  padding:13px;outline:none;tab-size:2;
+  font:12px/1.8 Consolas,Monaco,monospace;
+}
+textarea:focus{border-color:var(--blue)}
+#source{height:410px;min-height:220px}
+#refined{height:300px;min-height:180px}
+.editor-foot{
+  display:flex;justify-content:space-between;gap:10px;
+  flex-wrap:wrap;margin-top:9px;color:var(--muted);font-size:10px;
+}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.actions button{flex:0 0 auto}
+.metrics{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;
+}
+.metric{
+  padding:12px 10px;border:1px solid var(--line);
+  border-radius:6px;background:var(--panel2);min-width:0;
+}
+.metric small{display:block;color:var(--muted);font-size:9px}
+.metric strong{
+  display:block;font-size:22px;line-height:1.4;
+  margin-top:7px;overflow-wrap:anywhere;
+}
+.metric .unit{font-size:10px;color:var(--muted)}
+.resultbox{
+  padding:13px;background:var(--panel2);
+  border:1px solid var(--line);border-radius:6px;margin-top:12px;
+}
+.resultbox h3{font-size:14px;margin:7px 0}
+.resultbox p{font-size:11px;color:#a8b7cb;margin:0}
+.bar{height:5px;background:#1b293b;border-radius:8px;overflow:hidden;margin-top:12px}
+.bar div{height:100%;width:0;background:var(--blue);transition:width .25s}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.legend span{font-size:10px;color:var(--muted)}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px}
+.green{color:var(--green)}.yellow{color:var(--yellow)}
+.red{color:var(--red)}.blue{color:#83b7ff}
+.findings{display:grid;gap:8px;margin-top:12px}
+.finding{
+  background:var(--panel2);border:1px solid var(--line);
+  border-radius:5px;padding:11px;
+}
+.finding-top{display:flex;justify-content:space-between;gap:8px;align-items:start}
+.finding-title{font-size:11px;font-weight:bold}
+.finding-meta{font-size:9px;color:var(--muted);margin-top:4px}
+.finding p{font-size:11px;line-height:1.8;color:#a8b7ca;margin:8px 0 0}
+.finding button{font-size:10px;padding:5px 8px;margin-top:8px}
+.terminal{
+  height:260px;overflow:auto;background:#04070c;
+  border:1px solid #1c293b;border-radius:5px;padding:12px;
+  font-size:11px;line-height:1.9;overflow-wrap:anywhere;
+}
+.log{white-space:pre-wrap;margin-bottom:2px}
+.logtime{color:#65768c}
+.empty{
+  padding:18px;text-align:center;border:1px dashed #28374a;
+  color:var(--muted);font-size:11px;border-radius:5px;
+}
+.field-label{display:block;color:var(--muted);font-size:10px;margin:12px 0 6px}
+select{
+  background:#0a101a;color:var(--text);border:1px solid var(--line);
+  border-radius:5px;padding:9px;width:100%;
+}
+footer{
+  border-top:1px solid var(--line);padding:18px;
+  color:var(--muted);text-align:center;font-size:10px;margin-top:20px;
+}
+.notice{padding:10px;border-left:2px solid var(--blue);
+  background:#0a1422;color:#9eb8d7;font-size:10px;line-height:1.8}
+@media(max-width:850px){
+  main{padding:11px}
+  .layout{grid-template-columns:1fr}
+  header{padding:13px}
+  #source{height:340px}
+}
+@media(max-width:420px){
+  .metric{padding:9px 7px}
+  .metric strong{font-size:18px}
+  .panel{padding:11px}
+  button{padding:9px}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="logo"><span>LUA</span> AI DETECTOR <span>PRO</span></div>
+  <div class="header-right">
+    <span class="status" id="status">LOCAL ENGINE READY</span>
+  </div>
+</header>
+
+<main>
+  <div class="topline">
+    <div>
+      <h1 class="page-title">Source Analysis Workspace</h1>
+      <div class="muted">Roblox Luau / AI indicators / code quality / refactoring</div>
+    </div>
+    <span class="pill">VERSION 2.0</span>
+  </div>
+
+  <div class="layout">
+    <div class="column">
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="index">01</span>SOURCE EDITOR</div>
+          <span class="pill">LUAU</span>
+        </div>
+
+        <textarea id="source" spellcheck="false"
+          autocapitalize="off" autocomplete="off"
+          placeholder="-- Tempel kode Roblox Luau di sini..."></textarea>
+
+        <div class="editor-foot">
+          <span id="sourceStats">0 karakter · 0 baris</span>
+          <span>Input diproses setelah kamu menekan tombol analisis</span>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="localBtn">ANALYZE LOCAL</button>
+          <button id="aiBtn">GEMINI ANALYSIS</button>
+          <button id="sampleBtn">LOAD SAMPLE</button>
+          <button class="secondary danger" id="clearBtn">CLEAR</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="index">02</span>ANALYSIS TERMINAL</div>
+          <span class="pill" id="terminalState">READY</span>
+        </div>
+        <div id="terminal" class="terminal" aria-live="polite"></div>
+        <div class="actions">
+          <button id="copyLogBtn">COPY LOG</button>
+          <button id="downloadLogBtn">EXPORT REPORT</button>
+          <button id="clearLogBtn">CLEAR LOG</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="index">03</span>CODE REFINER</div>
+          <span class="pill">GEMINI</span>
+        </div>
+        <p class="muted">
+          Perbaiki keterbacaan, konsistensi, duplikasi, dan potensi bug.
+          Hasil tetap harus ditinjau dan diuji di Roblox Studio.
+        </p>
+
+        <label class="field-label" for="refineMode">MODE PERBAIKAN</label>
+        <select id="refineMode">
+          <option value="quality">Perbaiki kualitas dan keterbacaan</option>
+          <option value="bugs">Tinjau kemungkinan bug dan error</option>
+          <option value="performance">Tinjau efisiensi dan performa</option>
+          <option value="comments">Perjelas komentar dan dokumentasi</option>
+        </select>
+
+        <div class="actions">
+          <button class="primary" id="refineBtn">REFINE WITH GEMINI</button>
+          <button id="copyRefinedBtn">COPY REFINED CODE</button>
+        </div>
+
+        <label class="field-label" for="refined">HASIL PERBAIKAN</label>
+        <textarea id="refined" spellcheck="false"
+          placeholder="Kode hasil refactoring akan muncul di sini..."
+          readonly></textarea>
+      </section>
+    </div>
+
+    <div class="column">
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="index">04</span>ANALYSIS OVERVIEW</div>
+          <span class="pill">REPORT</span>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <small>STYLE SCORE</small>
+            <strong id="score">--</strong>
+            <span class="unit">/ 100</span>
+          </div>
+          <div class="metric">
+            <small>LINES</small>
+            <strong id="lineCount">0</strong>
+            <span class="unit">baris kode</span>
+          </div>
+          <div class="metric">
+            <small>FINDINGS</small>
+            <strong id="findingCount">0</strong>
+            <span class="unit">temuan</span>
+          </div>
+        </div>
+
+        <div class="resultbox">
+          <div class="muted">CLASSIFICATION</div>
+          <h3 id="classification">Menunggu analisis</h3>
+          <p id="summary">Masukkan kode untuk memulai pemeriksaan.</p>
+          <div class="bar"><div id="scoreBar"></div></div>
+        </div>
+
+        <div class="legend">
+          <span><i class="dot" style="background:var(--red)"></i>Masalah teknis</span>
+          <span><i class="dot" style="background:var(--yellow)"></i>Perlu ditinjau</span>
+          <span><i class="dot" style="background:var(--blue)"></i>Indikator gaya</span>
+        </div>
+
+        <div class="notice" style="margin-top:13px">
+          Skor gaya bukan probabilitas bahwa kode dibuat AI.
+          Kode manusia dan AI dapat memiliki pola yang sama.
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="index">05</span>DETAILED FINDINGS</div>
+          <span class="pill" id="findingState">NO DATA</span>
+        </div>
+        <div id="findings" class="findings">
+          <div class="empty">Belum ada hasil. Jalankan analisis terlebih dahulu.</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="index">06</span>HOW IT WORKS</div>
+        </div>
+        <p class="muted">
+          LOCAL ENGINE memeriksa pola teks, penamaan, komentar,
+          dan beberapa struktur kode. GEMINI ANALYSIS meminta model AI
+          menjelaskan temuan secara kontekstual melalui backend.
+        </p>
+        <p class="muted">
+          Deteksi asal-usul kode tidak dapat dipastikan hanya dari teks.
+          Untuk menguji kebenaran program, gunakan Roblox Studio,
+          pemeriksaan sintaks, dan pengujian perilaku.
+        </p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  LUA AI DETECTOR PRO · STATIC ANALYSIS + GEMINI BACKEND
+</footer>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+let lastReport = null;
+let logs = [];
+
+function writeLog(message, type="blue") {
+  const time = new Date().toLocaleTimeString();
+  logs.push({time, message, type});
+
+  const row = document.createElement("div");
+  row.className = "log " + type;
+
+  const stamp = document.createElement("span");
+  stamp.className = "logtime";
+  stamp.textContent = "[" + time + "] ";
+
+  row.append(stamp, document.createTextNode(message));
+  $("terminal").appendChild(row);
+  $("terminal").scrollTop = $("terminal").scrollHeight;
+}
+
+function updateStatus(text) {
+  $("status").textContent = text;
+  $("terminalState").textContent = text;
+}
+
+function countMatches(code, regex) {
+  return [...code.matchAll(regex)].length;
+}
+
+function addFinding(items, title, detail, severity, line=null) {
+  items.push({title, detail, severity, line});
+}
+
+function renderFindings(items) {
+  const root = $("findings");
+  root.replaceChildren();
+  $("findingCount").textContent = items.length;
+  $("findingState").textContent = items.length ? "COMPLETED" : "NO FINDINGS";
+
+  if (!items.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "Tidak ada temuan pada kategori yang diperiksa.";
+    root.appendChild(empty);
+    return;
+  }
+
+  items.forEach(item => {
+    const card = document.createElement("article");
+    card.className = "finding";
+
+    const top = document.createElement("div");
+    top.className = "finding-top";
+
+    const title = document.createElement("div");
+    title.className = "finding-title";
+    title.textContent = item.title || "Temuan";
+
+    const severity = document.createElement("span");
+    severity.className =
+      /ERROR|BUG|HIGH/i.test(item.severity || "") ? "red" :
+      /STYLE|NOTICE|REVIEW|MEDIUM/i.test(item.severity || "") ? "yellow" : "blue";
+    severity.textContent = item.severity || "INFO";
+
+    top.append(title, severity);
+
+    const meta = document.createElement("div");
+    meta.className = "finding-meta";
+    meta.textContent = item.line ? "Lokasi: baris " + item.line : "Lokasi tidak ditentukan";
+
+    const detail = document.createElement("p");
+    detail.textContent = item.detail || "Tidak ada keterangan.";
+
+    card.append(top, meta, detail);
+
+    if (item.line) {
+      const jump = document.createElement("button");
+      jump.textContent = "LIHAT BARIS";
+      jump.addEventListener("click", () => {
+        const lines = $("source").value.split(/\r?\n/);
+        const pos = lines.slice(0, Math.max(0, item.line - 1))
+          .join("\n").length;
+        $("source").focus();
+        $("source").setSelectionRange(pos, pos);
+        writeLog("Navigasi ke baris " + item.line + ".", "blue");
+      });
+      card.appendChild(jump);
+    }
+
+    root.appendChild(card);
+  });
+}
+
+function displayReport(report) {
+  const score = Math.max(0, Math.min(100, Number(report.score) || 0));
+  $("score").textContent = score;
+  $("scoreBar").style.width = score + "%";
+  $("lineCount").textContent = report.lines || 0;
+  $("classification").textContent =
+    report.classification || "Hasil analisis tersedia";
+  $("summary").textContent = report.summary ||
+    "Tinjau temuan. Skor bukan probabilitas AI.";
+
+  renderFindings(Array.isArray(report.findings) ? report.findings : []);
+  lastReport = report;
+}
+
+function localAnalyze(code) {
+  const lines = code.split(/\r?\n/);
+  const findings = [];
+  let score = 0;
+
+  function styleCheck(title, regex, weight, explanation) {
+    const matches = countMatches(code, regex);
+    if (!matches) return;
+
+    score += Math.min(20, matches * weight);
+    addFinding(
+      findings,
+      title,
+      matches + " kecocokan. " + explanation,
+      "STYLE INDICATOR"
+    );
+  }
+
+  styleCheck(
+    "Komentar generik",
+    /--\s*(here is|this script|generated by|AI-generated|main logic)\b/gi,
+    5,
+    "Pola komentar ini bisa muncul pada kode manusia maupun AI."
+  );
+
+  styleCheck(
+    "Nama fungsi generik",
+    /\b(helperFunction|processData|handleAction|executeTask|initializeSystem)\b/g,
+    4,
+    "Nama fungsi umum ditemukan. Periksa apakah penamaan sesuai fungsinya."
+  );
+
+  styleCheck(
+    "Header komentar terstruktur",
+    /^--\s*[-=]{3,}/gm,
+    2,
+    "Pemisah bagian ditemukan; ini praktik yang sah dan bukan bukti AI."
+  );
+
+  styleCheck(
+    "Anotasi tipe Luau",
+    /:\s*(string|number|boolean|any|Vector3|CFrame|Instance)\b/g,
+    2,
+    "Anotasi tipe ditemukan. Ini fitur Luau yang normal."
+  );
+
+  const functions = [...code.matchAll(
+    /^\s*(?:local\s+)?function\s+([A-Za-z_]\w*)/gm
+  )];
+
+  if (functions.length >= 8) {
+    addFinding(
+      findings,
+      "Banyak deklarasi fungsi",
+      functions.length + " deklarasi fungsi ditemukan. Banyak fungsi tidak membuktikan penggunaan AI.",
+      "REVIEW"
+    );
+  }
+
+  const linesLong = lines
+    .map((line, index) => ({line, number:index+1}))
+    .filter(x => x.line.length > 180);
+
+  linesLong.slice(0, 10).forEach(item => {
+    addFinding(
+      findings,
+      "Baris kode panjang",
+      "Baris ini berisi " + item.line.length +
+      " karakter. Pertimbangkan pemformatan jika membantu keterbacaan.",
+      "CODE QUALITY",
+      item.number
+    );
+  });
+
+  const locals = new Map();
+  for (const match of code.matchAll(/\blocal\s+([A-Za-z_]\w*)/g)) {
+    const name = match[1];
+    locals.set(name, (locals.get(name) || 0) + 1);
+  }
+
+  const repeated = [...locals.entries()].filter(([, count]) => count > 1);
+  if (repeated.length) {
+    addFinding(
+      findings,
+      "Deklarasi local berulang",
+      "Nama berulang: " + repeated.slice(0, 8).map(([name]) => name).join(", ") +
+      ". Ini dapat sah pada scope berbeda; periksa konteksnya.",
+      "REVIEW"
+    );
+  }
+
+  const linesOfCode = lines.filter(line => line.trim()).length;
+  const total = Math.min(100, score);
+
+  return {
+    mode: "local",
+    score: total,
+    lines: linesOfCode,
+    findings,
+    classification: linesOfCode < 8 ?
+      "Sampel terlalu pendek" :
+      total >= 30 ? "Beberapa indikator gaya ditemukan" :
+      "Indikator gaya terbatas",
+    summary: "Analisis lokal berbasis pola teks. Skor bukan peluang bahwa kode dibuat AI."
+  };
+}
+
+function runLocalAnalysis() {
+  const code = $("source").value;
+  if (!code.trim()) {
+    writeLog("ERROR: Masukkan source code terlebih dahulu.", "red");
+    return;
+  }
+
+  updateStatus("LOCAL ANALYSIS");
+  $("terminal").replaceChildren();
+  writeLog("Memulai pemeriksaan lokal.", "green");
+  writeLog("Panjang input: " + code.length + " karakter.");
+  writeLog("Menghitung struktur, komentar, dan pola penamaan.");
+
+  const result = localAnalyze(code);
+  displayReport(result);
+
+  result.findings.forEach(item => {
+    writeLog(item.title + ": " + item.detail, "yellow");
+  });
+
+  writeLog("Analisis lokal selesai.", "green");
+  writeLog("Skor gaya bukan probabilitas AI.", "yellow");
+  updateStatus("LOCAL ENGINE READY");
+}
+
+async function callGemini(mode) {
+  const code = $("source").value;
+  if (!code.trim()) {
+    writeLog("ERROR: Source code kosong.", "red");
+    return;
+  }
+
+  const buttons = [$("aiBtn"), $("refineBtn")];
+  buttons.forEach(button => button.disabled = true);
+  updateStatus("CONTACTING BACKEND");
+
+  try {
+    writeLog("Mengirim permintaan ke backend Vercel.", "blue");
+
+    const response = await fetch("/api/analyze", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        code,
+        mode,
+        refineMode: $("refineMode").value
+      })
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(data.error || "HTTP " + response.status);
+    }
+
+    if (mode === "refine") {
+      const refined = data.refinedCode || data.code || "";
+      if (!refined) {
+        throw new Error("Backend tidak mengembalikan kode perbaikan.");
+      }
+
+      $("refined").value = refined;
+      writeLog("Kode hasil perbaikan diterima.", "green");
+    } else {
+      if (!Array.isArray(data.findings)) {
+        throw new Error("Format temuan tidak valid.");
+      }
+
+      displayReport(data);
+      writeLog("Analisis Gemini berhasil.", "green");
+
+      data.findings.forEach(item => {
+        writeLog(
+          (item.title || "Temuan") + ": " + (item.detail || ""),
+          /ERROR|BUG/i.test(item.severity || "") ? "red" : "yellow"
+        );
+      });
+    }
+  } catch (error) {
+    writeLog("BACKEND ERROR: " + error.message, "red");
+    writeLog("Pastikan /api/analyze tersedia dan proyek sudah dideploy.", "yellow");
+  } finally {
+    buttons.forEach(button => button.disabled = false);
+    updateStatus("READY");
+  }
+}
+
+$("localBtn").addEventListener("click", () => {
+  try {
+    runLocalAnalysis();
+  } catch (error) {
+    writeLog("Local error: " + error.message, "red");
+  }
+});
+
+$("aiBtn").addEventListener("click", () => callGemini("analyze"));
+$("refineBtn").addEventListener("click", () => callGemini("refine"));
+
+$("sampleBtn").addEventListener("click", () => {
+  $("source").value = [
+    "-- Initialize the system",
+    "local Players = game:GetService(\"Players\")",
+    "",
+    "local function initializeSystem()",
+    "    local player = Players.LocalPlayer",
+    "    if not player then",
+    "        return nil",
+    "    end",
+    "    return player",
+    "end",
+    "",
+    "local result = initializeSystem()",
+    "print(result)"
+  ].join("\n");
+
+  updateSourceStats();
+  writeLog("Sample code dimuat.", "green");
+});
+
+$("clearBtn").addEventListener("click", () => {
+  $("source").value = "";
+  $("refined").value = "";
+  $("score").textContent = "--";
+  $("lineCount").textContent = "0";
+  $("findingCount").textContent = "0";
+  $("classification").textContent = "Menunggu analisis";
+  $("summary").textContent = "Masukkan kode untuk memulai pemeriksaan.";
+  $("scoreBar").style.width = "0%";
+  $("findings").innerHTML =
+    '<div class="empty">Belum ada hasil analisis.</div>';
+  lastReport = null;
+  updateSourceStats();
+  writeLog("Input dibersihkan.", "blue");
+});
+
+function updateSourceStats() {
+  const code = $("source").value;
+  const lineCount = code ? code.split(/\r?\n/).length : 0;
+  $("sourceStats").textContent =
+    code.length + " karakter · " + lineCount + " baris";
+}
+
+$("source").addEventListener("input", updateSourceStats);
+
+async function copyText(value, description) {
+  if (!value) {
+    writeLog("Tidak ada teks untuk disalin.", "yellow");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(value);
+    writeLog(description + " berhasil disalin.", "green");
+  } catch {
+    writeLog("Clipboard tidak tersedia. Salin teks secara manual.", "yellow");
+  }
+}
+
+$("copyLogBtn").addEventListener("click", () => {
+  copyText($("terminal").innerText, "Terminal");
+});
+
+$("copyRefinedBtn").addEventListener("click", () => {
+  copyText($("refined").value, "Kode hasil perbaikan");
+});
+
+$("clearLogBtn").addEventListener("click", () => {
+  $("terminal").replaceChildren();
+  logs = [];
+  writeLog("Terminal dibersihkan.", "blue");
+});
+
+$("downloadLogBtn").addEventListener("click", () => {
+  if (!lastReport) {
+    writeLog("Jalankan analisis terlebih dahulu.", "yellow");
+    return;
+  }
+
+  const report = {
+    generatedAt: new Date().toISOString(),
+    report: lastReport,
+    terminal: logs
+  };
+
+  const blob = new Blob(
+    [JSON.stringify(report, null, 2)],
+    {type:"application/json"}
+  );
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "lua-analysis-report.json";
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  writeLog("Laporan JSON diekspor.", "green");
+});
+
+updateSourceStats();
+writeLog("Frontend berhasil diinisialisasi.", "green");
+writeLog("Local engine siap digunakan tanpa API key.", "blue");
+writeLog("Gemini memerlukan backend Vercel /api/analyze.", "yellow");
+</script>
+</body>
+</html>
